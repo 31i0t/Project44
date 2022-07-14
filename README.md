@@ -1,3 +1,10 @@
+## Group Account
+
+email: `cm2020.team@gmail.com`
+password: `this-is-a-group-account`
+
+Use the above account for vendors (Firebase, Vercel, etc.). This allows all of us to sign in to the services that our project uses.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
