@@ -33,6 +33,7 @@ yarn-error.log*
 
 # Visual Studio folder
 /.vs
+/.vscode
 
 # Check in environemnt variables
 !.env
