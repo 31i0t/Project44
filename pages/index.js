@@ -19,9 +19,42 @@ export default function Home() {
   const [tags, setTags] = useState([]);
   const [inventory, setInventory] = useState([]);
 
-  roomRepository.all().then((response) => {
-    setRooms(response.data);
-  });
+  useEffect(() => {
+    const setAllRooms = async () => {
+      const rooms = await fetch(`${BASE_URL}/api/rooms`, {
+        headers: {
+          "Referrer-Policy": "no-referrer",
+        },
+        method: "GET",
+      });
+
+      setRooms(await rooms.json());
+    };
+
+    setAllRooms();
+  }, []);
+
+  const addRoom = useCallback(async ({ name }) => {
+    await fetch(`${BASE_URL}/api/rooms/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Referrer-Policy": "no-referrer",
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    });
+
+    const rooms = await fetch(`${BASE_URL}/api/rooms`, {
+      headers: {
+        "Referrer-Policy": "no-referrer",
+      },
+      method: "GET",
+    });
+
+    setRooms(await rooms.json());
+  }, []);
 
   tagRepository.all().then((response) => {
     setTags(response.data);
