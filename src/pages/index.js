@@ -8,7 +8,7 @@ import InventoryDetail from "../components/InventoryDetail";
 import roomRepository from "../services/roomRepository";
 import tagRepository from "../services/tagRepository";
 import inventoryRepository from "../services/inventoryRepository";
-import { PROJECT_URL } from "../utils";
+import { BASE_URL } from "../utils";
 
 import { useState, useCallback, useEffect } from "react";
 
@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     const setAllRooms = async () => {
-      const rooms = await fetch(`http://${PROJECT_URL}/api/rooms`, {
+      const rooms = await fetch(`${BASE_URL}/api/rooms`, {
         method: "GET",
       });
 
@@ -31,7 +31,7 @@ export default function Home() {
   }, []);
 
   const addRoom = useCallback(async ({ name }) => {
-    await fetch(`http://${PROJECT_URL}/api/rooms/add`, {
+    await fetch(`${BASE_URL}/api/rooms/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function Home() {
       }),
     });
 
-    const rooms = await fetch(`http://${PROJECT_URL}/api/rooms`, {
+    const rooms = await fetch(`${BASE_URL}/api/rooms`, {
       method: "GET",
     });
 
