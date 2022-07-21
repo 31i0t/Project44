@@ -33,3 +33,6 @@ yarn-error.log*
 
 # Visual Studio folder
 /.vs
+
+# Check in environemnt variables
+!.env
