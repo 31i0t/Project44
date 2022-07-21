@@ -1,27 +1,52 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Tags from "../components/Tags";
 import Title from "../components/Title";
 import Menu from "../components/Menu";
 import InventoryList from "../components/InventoryList";
 import InventoryDetail from "../components/InventoryDetail";
 
-import roomRepository from '../services/roomRepository';
-import tagRepository from '../services/tagRepository';
-import inventoryRepository from '../services/inventoryRepository';
+import roomRepository from "../services/roomRepository";
+import tagRepository from "../services/tagRepository";
+import inventoryRepository from "../services/inventoryRepository";
+import { BASE_URL } from "../utils";
 
-
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from "react";
 
 export default function Home() {
-
   // mock response from API
   const [rooms, setRooms] = useState([]);
   const [tags, setTags] = useState([]);
   const [inventory, setInventory] = useState([]);
 
-  roomRepository.all().then((response) => {
-    setRooms(response.data);
-  });
+  useEffect(() => {
+    const setAllRooms = async () => {
+      const rooms = await fetch(`${BASE_URL}/api/rooms`, {
+        method: "GET",
+      });
+
+      setRooms(await rooms.json());
+    };
+
+    setAllRooms();
+  }, []);
+
+  const addRoom = useCallback(async ({ name }) => {
+    await fetch(`${BASE_URL}/api/rooms/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    });
+
+    const rooms = await fetch(`${BASE_URL}/api/rooms`, {
+      method: "GET",
+    });
+
+    setRooms(await rooms.json());
+  }, []);
 
   tagRepository.all().then((response) => {
     setTags(response.data);
@@ -30,7 +55,6 @@ export default function Home() {
   inventoryRepository.all().then((response) => {
     setInventory(response.data);
   });
-
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -43,7 +67,7 @@ export default function Home() {
         {/* Main screen */}
         <main className="flex flex-1">
           <div className="w-1/2 p-5 border-l border-gray-100">
-            <Title label="Inventory" add={true} classes={['pl-2']} />
+            <Title label="Inventory" add={true} classes={["pl-2"]} />
             <InventoryList items={inventory} />
           </div>
           <div className="w-1/2 p-5 bg-white border-l border-gray-100">
@@ -53,12 +77,12 @@ export default function Home() {
         {/* Sidebar */}
         <aside className="order-first bg-white w-60">
           <div className="p-2 border-b border-gray-100">User info</div>
-          <Title add={true} label="Rooms" classes={['pl-2']} />
-          <Menu items={rooms}/>
-          <Title label="Tags" classes={['pl-2']} />
+          <Title add={true} onAdd={addRoom} label="Rooms" classes={["pl-2"]} />
+          <Menu items={rooms} />
+          <Title label="Tags" classes={["pl-2"]} />
           <Tags items={tags} />
         </aside>
       </div>
     </div>
-  )
+  );
 }
