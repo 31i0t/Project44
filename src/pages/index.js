@@ -8,8 +8,9 @@ import InventoryDetail from "../components/InventoryDetail";
 import roomRepository from "../services/roomRepository";
 import tagRepository from "../services/tagRepository";
 import inventoryRepository from "../services/inventoryRepository";
+import { PROJECT_URL } from "../utils";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 export default function Home() {
   // mock response from API
@@ -17,9 +18,35 @@ export default function Home() {
   const [tags, setTags] = useState([]);
   const [inventory, setInventory] = useState([]);
 
-  roomRepository.all().then((response) => {
-    setRooms(response.data);
-  });
+  useEffect(() => {
+    const setAllRooms = async () => {
+      const rooms = await fetch(`http://${PROJECT_URL}/api/rooms`, {
+        method: "GET",
+      });
+
+      setRooms(await rooms.json());
+    };
+
+    setAllRooms();
+  }, []);
+
+  const addRoom = useCallback(async ({ name }) => {
+    await fetch(`http://${PROJECT_URL}/api/rooms/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    });
+
+    const rooms = await fetch(`http://${PROJECT_URL}/api/rooms`, {
+      method: "GET",
+    });
+
+    setRooms(await rooms.json());
+  }, []);
 
   tagRepository.all().then((response) => {
     setTags(response.data);
@@ -50,7 +77,7 @@ export default function Home() {
         {/* Sidebar */}
         <aside className="order-first bg-white w-60">
           <div className="p-2 border-b border-gray-100">User info</div>
-          <Title add={true} label="Rooms" classes={["pl-2"]} />
+          <Title add={true} onAdd={addRoom} label="Rooms" classes={["pl-2"]} />
           <Menu items={rooms} />
           <Title label="Tags" classes={["pl-2"]} />
           <Tags items={tags} />
