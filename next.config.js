@@ -5,6 +5,7 @@ const nextConfig = {
 	headers: [
 		{ key: "Access-Control-Allow-Credentials", value: "true" },
     { key: "Access-Control-Allow-Origin", value: "*" },
+		{ key: 'Referrer-Policy', value: 'no-referrer' }
 	]
 }
 
