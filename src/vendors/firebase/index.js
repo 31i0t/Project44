@@ -10,4 +10,6 @@ const db = new Firestore({
   },
 });
 
+db.settings({ ignoreUndefinedProperties: true });
+
 export { db };
