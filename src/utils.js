@@ -1,2 +1,4 @@
-export const PROJECT_URL =
-  process.env.NEXT_PUBLIC_VERCEL_URL ?? "localhost:3000";
+// docs: https://vercel.com/docs/concepts/projects/environment-variables
+export const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  : "http://localhost:3000";
