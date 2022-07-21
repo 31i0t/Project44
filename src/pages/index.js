@@ -21,9 +21,6 @@ export default function Home() {
   useEffect(() => {
     const setAllRooms = async () => {
       const rooms = await fetch(`${BASE_URL}/api/rooms`, {
-        headers: {
-          "Referrer-Policy": "no-referrer",
-        },
         method: "GET",
       });
 
@@ -38,7 +35,6 @@ export default function Home() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Referrer-Policy": "no-referrer",
       },
       body: JSON.stringify({
         name,
@@ -46,9 +42,6 @@ export default function Home() {
     });
 
     const rooms = await fetch(`${BASE_URL}/api/rooms`, {
-      headers: {
-        "Referrer-Policy": "no-referrer",
-      },
       method: "GET",
     });
 
