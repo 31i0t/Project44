@@ -4,6 +4,9 @@ import Title from "../components/Title";
 import Menu from "../components/Menu";
 import InventoryList from "../components/InventoryList";
 import InventoryDetail from "../components/InventoryDetail";
+import BaseModal from "../components/BaseModal";
+import BaseInput from "../components/BaseInput";
+import BaseTitle from "../components/BaseTitle";
 
 import roomRepository from "../services/roomRepository";
 import tagRepository from "../services/tagRepository";
@@ -17,6 +20,9 @@ export default function Home() {
   const [rooms, setRooms] = useState([]);
   const [tags, setTags] = useState([]);
   const [inventory, setInventory] = useState([]);
+
+  const [createRoomVisible, showCreateRoom] = useState(false);
+  const [roomInput, setRoomInput] = useState(null);
 
   useEffect(() => {
     const setAllRooms = async () => {
@@ -56,8 +62,20 @@ export default function Home() {
     setInventory(response.data);
   });
 
+  const createRoom = async () => {
+    await addRoom({ name: roomInput });
+    showCreateRoom(false);
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
+      <BaseModal
+        visible={createRoomVisible}
+        title={"Create new Room"}
+        onCancel={() => showCreateRoom(false)}
+        onConfirm={createRoom}>
+        <BaseInput placeholder="Room name" onChange={setRoomInput}/>
+      </BaseModal>
       <Head>
         <title>Estatelaza</title>
         <meta name="description" content="put some cool description here" />
@@ -77,7 +95,7 @@ export default function Home() {
         {/* Sidebar */}
         <aside className="order-first bg-white w-60">
           <div className="p-2 border-b border-gray-100">User info</div>
-          <Title add={true} onAdd={addRoom} label="Rooms" classes={["pl-2"]} />
+          <BaseTitle add={true} onAdd={() => showCreateRoom(true)} label="Rooms" classes={["pl-2"]} />
           <Menu items={rooms} />
           <Title label="Tags" classes={["pl-2"]} />
           <Tags items={tags} />
