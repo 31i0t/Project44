@@ -22,7 +22,7 @@ export default function Home() {
   const [inventory, setInventory] = useState([]);
 
   const [createRoomVisible, showCreateRoom] = useState(false);
-  const [roomInput, setRoomInput] = useState(null);
+  const [newRoomName, setNewRoomName] = useState(null);
 
   useEffect(() => {
     const setAllRooms = async () => {
@@ -63,7 +63,7 @@ export default function Home() {
   });
 
   const createRoom = async () => {
-    await addRoom({ name: roomInput });
+    await addRoom({ name: newRoomName });
     showCreateRoom(false);
   }
 
@@ -74,7 +74,7 @@ export default function Home() {
         title={"Create new Room"}
         onCancel={() => showCreateRoom(false)}
         onConfirm={createRoom}>
-        <BaseInput placeholder="Room name" onChange={setRoomInput}/>
+        <BaseInput placeholder="Room name" onChange={setNewRoomName}/>
       </BaseModal>
       <Head>
         <title>Estatelaza</title>
