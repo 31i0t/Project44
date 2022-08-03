@@ -4,57 +4,38 @@ import Title from "../components/Title";
 import Menu from "../components/Menu";
 import InventoryList from "../components/InventoryList";
 import InventoryDetail from "../components/InventoryDetail";
-
 import roomRepository from "../services/roomRepository";
-import tagRepository from "../services/tagRepository";
-import inventoryRepository from "../services/inventoryRepository";
-import { BASE_URL } from "../utils";
+// import tagRepository from "../services/tagRepository";
+// import inventoryRepository from "../services/inventoryRepository";
 
 import { useState, useCallback, useEffect } from "react";
 
 export default function Home() {
-  // mock response from API
   const [rooms, setRooms] = useState([]);
   const [tags, setTags] = useState([]);
   const [inventory, setInventory] = useState([]);
 
-  useEffect(() => {
-    const setAllRooms = async () => {
-      const rooms = await fetch(`${BASE_URL}/api/rooms`, {
-        method: "GET",
-      });
+  const setAllRooms = async () => {
+    const rooms = await roomRepository.all();
+    setRooms(await rooms.json());
+  };
 
-      setRooms(await rooms.json());
-    };
-
+  const addRoom = useCallback(async ({ name }) => {
+    await roomRepository.add(name);
     setAllRooms();
   }, []);
 
-  const addRoom = useCallback(async ({ name }) => {
-    await fetch(`${BASE_URL}/api/rooms/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-      }),
-    });
-
-    const rooms = await fetch(`${BASE_URL}/api/rooms`, {
-      method: "GET",
-    });
-
-    setRooms(await rooms.json());
+  useEffect(() => {
+    setAllRooms();
   }, []);
 
-  tagRepository.all().then((response) => {
-    setTags(response.data);
-  });
+  // tagRepository.all().then((response) => {
+  //   setTags(response.data);
+  // });
 
-  inventoryRepository.all().then((response) => {
-    setInventory(response.data);
-  });
+  // inventoryRepository.all().then((response) => {
+  //   setInventory(response.data);
+  // });
 
   return (
     <div className="min-h-screen flex flex-col">

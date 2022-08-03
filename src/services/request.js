@@ -1,10 +1,9 @@
-import axios from 'axios';
+export default function request({ method, headers, path }, params = {}) {
+  const { body } = params;
 
-export default function request({ method, path }, params = {}) {
-  let url = path;
-  const { search = {} } = params;
-  Object.keys(search).forEach((key) => {
-    url = url.replace(`:${key}`, search[key]);
+  return fetch(path, {
+    method,
+    headers,
+    body,
   });
-  return axios[method](url);
 }
