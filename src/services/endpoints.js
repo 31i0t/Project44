@@ -1,13 +1,18 @@
+import { BASE_URL } from "../utils";
+
 const endpoints = {
   room: {
     all: {
-      method: 'get',
-      path: 'url_here',
+      method: 'GET',
+      path: `${BASE_URL}/api/rooms`,
     },
-    show: {
-      method: 'get',
-      path: 'url_here/:roomId',
-    },
+    add: {
+      method: 'POST',
+      path: `${BASE_URL}/api/rooms/add`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
   },
   tag: {
     all: {
