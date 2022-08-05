@@ -23,7 +23,7 @@ const methods = {
       id: uuid(),
     }
     inventoryMock.push(doc);
-    return { json: () => doc };
+    return  delay(1000, { json: () => doc });
   }
 };
 

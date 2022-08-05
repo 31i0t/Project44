@@ -3,6 +3,7 @@ import BaseInput from "../components/BaseInput";
 import roomRepository from "../services/_roomRepository";
 import { useStore } from "../store";
 import { useState } from "react";
+import useInput from "../hooks/useInput";
 
 import { trimSpaces, validateInput } from '../utils';
 
@@ -13,33 +14,14 @@ export default function CreateRoomModal() {
   const addRoom = useStore((state) => state.addRoom);
   const [busy, setBusy] = useState(false);
 
-  const [input, setInput] = useState({
-    name: '',
-    error: '',
-  });
-
-  const handleChange = (value) => {
-    const result = validateInput(value, rooms.map(r => r.name));
-    let error = '';
-
-    if (result === 'no_empty_name_allowed') {
-      error = 'No empty name allowed';
-    } else if (result === 'name_already_exist') {
-      error = 'Name already exist';
-    }
-
-    setInput({
-      name: value,
-      error,
-    });
-  };
+  const [input, setInput] = useInput();
 
   const handleCancel = () => setCreateRoomVisible(false);
 
   const handleConfirm = async () => {
     setBusy(true);
-    const room = await roomRepository.add(input.name);
-    debugger
+    const room = await roomRepository.add(input.value);
+    
     addRoom(await room.json());
     setBusy(false);
     setCreateRoomVisible(false);
@@ -54,7 +36,7 @@ export default function CreateRoomModal() {
     <BaseModal
       visible={visible}
       title={"Create new Room"}
-      confirmDisabled={Boolean(input.error) || trimSpaces(input.name) === ''}
+      confirmDisabled={Boolean(input.error) || trimSpaces(input.value) === ''}
       busy={busy}
       onCancel={handleCancel}
       onConfirm={handleConfirm}>
@@ -62,7 +44,7 @@ export default function CreateRoomModal() {
         value={input.name}
         error={input.error}
         placeholder="Room name"
-        onChange={handleChange} />
+        onChange={(value) => setInput(validateInput(value, rooms.map(r => r.name)))} />
     </BaseModal>
   );
 }

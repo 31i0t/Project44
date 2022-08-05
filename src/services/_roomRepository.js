@@ -25,7 +25,7 @@ const methods = {
       inventory: [],
     }
     roomsMock.push(doc);
-    return { json: () => doc };
+    return  delay(1000, { json: () => doc });
   }
 };
 
