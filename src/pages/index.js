@@ -1,81 +1,53 @@
 import Head from "next/head";
+// base components
 import Tags from "../components/Tags";
 import Title from "../components/Title";
+import BaseTitle from "../components/BaseTitle";
 import Menu from "../components/Menu";
+// main components
 import InventoryList from "../components/InventoryList";
 import InventoryDetail from "../components/InventoryDetail";
-import BaseModal from "../components/BaseModal";
-import BaseInput from "../components/BaseInput";
-import BaseTitle from "../components/BaseTitle";
-
-import roomRepository from "../services/roomRepository";
-import tagRepository from "../services/tagRepository";
-import inventoryRepository from "../services/inventoryRepository";
-import { BASE_URL } from "../utils";
-
+// modals
+import CreateRoomModal from "../components/CreateRoomModal";
+import CreateInventoryModal from "../components/CreateInventoryModal";
+// repositories
+import roomRepository from "../services/_roomRepository";
+import tagRepository from "../services/_tagRepository";
+import inventoryRepository from "../services/_inventoryRepository";
+// hooks
 import { useState, useCallback, useEffect } from "react";
+import { useStore } from "../store";
+
+
 
 export default function Home() {
-  // mock response from API
-  const [rooms, setRooms] = useState([]);
   const [tags, setTags] = useState([]);
-  const [inventory, setInventory] = useState([]);
+  const [loadingRooms, setLoadingRooms] = useState(true);
+  const rooms = useStore((state) => state.rooms);
+  const setRooms = useStore((state) => state.setRooms);
+  const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
 
-  const [createRoomVisible, showCreateRoom] = useState(false);
-  const [roomInput, setRoomInput] = useState(null);
+  const activeRoomId = useStore((state) => state.activeRoomId);
+  const setActiveRoomId = useStore((state) => state.setActiveRoomId);
+
+  const setAllRooms = async () => {
+    const res = await roomRepository.all();
+    const rooms = await res.json()
+    if (rooms.length) {
+      setRooms(rooms);
+      setActiveRoomId(rooms[0].id);
+    }
+    setLoadingRooms(false);
+  };
 
   useEffect(() => {
-    const setAllRooms = async () => {
-      const rooms = await fetch(`${BASE_URL}/api/rooms`, {
-        method: "GET",
-      });
-
-      setRooms(await rooms.json());
-    };
-
     setAllRooms();
   }, []);
 
-  const addRoom = useCallback(async ({ name }) => {
-    await fetch(`${BASE_URL}/api/rooms/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-      }),
-    });
-
-    const rooms = await fetch(`${BASE_URL}/api/rooms`, {
-      method: "GET",
-    });
-
-    setRooms(await rooms.json());
-  }, []);
-
-  tagRepository.all().then((response) => {
-    setTags(response.data);
-  });
-
-  inventoryRepository.all().then((response) => {
-    setInventory(response.data);
-  });
-
-  const createRoom = async () => {
-    await addRoom({ name: roomInput });
-    showCreateRoom(false);
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
-      <BaseModal
-        visible={createRoomVisible}
-        title={"Create new Room"}
-        onCancel={() => showCreateRoom(false)}
-        onConfirm={createRoom}>
-        <BaseInput placeholder="Room name" onChange={setRoomInput}/>
-      </BaseModal>
+      <CreateRoomModal />
+      <CreateInventoryModal />
       <Head>
         <title>Estatelaza</title>
         <meta name="description" content="put some cool description here" />
@@ -85,8 +57,8 @@ export default function Home() {
         {/* Main screen */}
         <main className="flex flex-1">
           <div className="w-1/2 p-5 border-l border-gray-100">
-            <Title label="Inventory" add={true} classes={["pl-2"]} />
-            <InventoryList items={inventory} />
+            { !loadingRooms && rooms.length === 0 && <p className="text-center">You haven&apos;t created any room yet</p> }
+            { rooms.length > 0 && <InventoryList />}
           </div>
           <div className="w-1/2 p-5 bg-white border-l border-gray-100">
             <InventoryDetail />
@@ -95,8 +67,8 @@ export default function Home() {
         {/* Sidebar */}
         <aside className="order-first bg-white w-60">
           <div className="p-2 border-b border-gray-100">User info</div>
-          <BaseTitle add={true} onAdd={() => showCreateRoom(true)} label="Rooms" classes={["pl-2"]} />
-          <Menu items={rooms} />
+          <BaseTitle onAdd={() => setCreateRoomVisible(true)} label="Rooms" classes={["pl-2"]} />
+          <Menu items={rooms} active={activeRoomId} onSelect={setActiveRoomId} />
           <Title label="Tags" classes={["pl-2"]} />
           <Tags items={tags} />
         </aside>
