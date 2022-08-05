@@ -9,7 +9,8 @@ export default function Button(props) {
 
   const types = {
     primary: 'bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-25 disabled:cursor-not-allowed',
-    secondary: 'bg-white text-grey hover:bg-gray-100',
+    secondary: 'bg-white text-grey hover:bg-gray-100 border border-gray-300',
+    white: 'bg-white text-grey hover:bg-gray-100',
   }
 
   return (

@@ -1,11 +1,14 @@
 import MediaItem from "./MediaItem";
 
-export default function Menu({ items }) {
+export default function Menu({ items, active, onSelect }) {
   return (
     <nav>
       <ul>
-        {items.map(({ name }) => (
-          <li key={name} className="bg-white border-b border-gray-100 px-2 py">
+        {items.map(({ id, name }) => (
+          <li
+            key={id}
+            className={`${active === id && 'bg-blue-300'} border-b border-gray-100 px-2 py`}
+            onClick={ () => onSelect(id) }>
             <MediaItem title={name} link={{ href: "#", text: name }} />
           </li>
         ))}

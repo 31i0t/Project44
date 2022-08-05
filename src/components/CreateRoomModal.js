@@ -1,6 +1,6 @@
 import BaseModal from "../components/BaseModal";
 import BaseInput from "../components/BaseInput";
-import roomRepository from "../services/roomRepository";
+import roomRepository from "../services/_roomRepository";
 import { useStore } from "../store";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export default function CreateRoomModal() {
   const rooms = useStore((state) => state.rooms);
   const visible = useStore((state) => state.createRoomVisible);
   const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
-  const setRooms = useStore((state) => state.setRooms);
+  const addRoom = useStore((state) => state.addRoom);
   const [busy, setBusy] = useState(false);
 
   const [input, setInput] = useState({
@@ -38,9 +38,9 @@ export default function CreateRoomModal() {
 
   const handleConfirm = async () => {
     setBusy(true);
-    await roomRepository.add(input.name);
-    const rooms = await roomRepository.all();
-    setRooms(await rooms.json());
+    const room = await roomRepository.add(input.name);
+    debugger
+    addRoom(await room.json());
     setBusy(false);
     setCreateRoomVisible(false);
     setInput({

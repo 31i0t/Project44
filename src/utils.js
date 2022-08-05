@@ -9,11 +9,18 @@ export const trimSpaces = (str = '') => str.trim()
   .replace(new RegExp(String.fromCharCode(160), 'g'), '')
   .replace(/\s+/g, ' ');
 
-export const validateInput = (text = '', texts = []) => {
-  const txt = trimSpaces(text.toLowerCase());
-  if (txt === '') return 'no_empty_name_allowed';
-  if (texts.some((t) => trimSpaces(t).toLowerCase() === txt)) return 'name_already_exist';
-  return '';
+export const validateInput = (value = '', values = []) => {
+  const txt = trimSpaces(value.toLowerCase());
+  let error = '';
+  if (txt === '') {
+    error = 'no_empty_name_allowed';
+  } else if (values.some((t) => trimSpaces(t).toLowerCase() === txt)) {
+    error = 'name_already_exist';
+  }
+  return {
+    value,
+    error
+  };
 };
 
 

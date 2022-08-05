@@ -1,12 +1,19 @@
-import request from './request';
-import endpoints from './endpoints';
+import { BASE_URL } from "../utils";
 
 const methods = {
   all() {
-    return request(endpoints.room.all);
+    return fetch(`${BASE_URL}/api/rooms`, {
+      method: 'GET',
+    });
   },
   add(name) {
-    return request(endpoints.room.add, { body: JSON.stringify({ name })});
+    return fetch(`${BASE_URL}/api/rooms/add`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name })
+    });
   }
 };
 

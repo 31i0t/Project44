@@ -34,7 +34,7 @@ export default function BaseModal(props) {
         </div>
         <div className="flex py-5 -mb-5 justify-end gap-2">
           { onCancel &&
-            <BaseButton type="secondary" onClick={onCancel}>
+            <BaseButton type="white" onClick={onCancel}>
               { cancel }
             </BaseButton>
           }

@@ -1,8 +1,4 @@
-import request from './request';
-import endpoints from './endpoints';
-
-// remove upon API implementation
-import { tagsMock } from './mocks';
+import { tagsMock } from './_mocks';
 
 // remove upon API implementation
 function delay(time, value) {
