@@ -17,6 +17,7 @@ import inventoryRepository from "../services/_inventoryRepository";
 // hooks
 import { useState, useCallback, useEffect } from "react";
 import { useStore } from "../store";
+import TaskList from "../components/TaskItemList";
 
 
 
@@ -29,6 +30,9 @@ export default function Home() {
 
   const activeRoomId = useStore((state) => state.activeRoomId);
   const setActiveRoomId = useStore((state) => state.setActiveRoomId);
+
+  //TODO: useState hook
+  const tasks = [{title: "Test1", priority: "High"}, {title: "Test2", priority: "Medium"}];
 
   const setAllRooms = async () => {
     const res = await roomRepository.all();
@@ -62,6 +66,10 @@ export default function Home() {
           </div>
           <div className="w-1/2 p-5 bg-white border-l border-gray-100">
             <InventoryDetail />
+          </div>
+          {/* TaskList */}
+          <div className="w-1/2 p-5 bg-white border-l border-gray-100">
+            <TaskList tasks={tasks} />
           </div>
         </main>
         {/* Sidebar */}
