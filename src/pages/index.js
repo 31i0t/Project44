@@ -17,9 +17,7 @@ import inventoryRepository from "../services/_inventoryRepository";
 // hooks
 import { useState, useCallback, useEffect } from "react";
 import { useStore } from "../store";
-import TaskList from "../components/TaskItemList";
-
-
+import TaskList from "../components/TaskList";
 
 export default function Home() {
   const [tags, setTags] = useState([]);
