@@ -30,7 +30,9 @@ export default function Home() {
   const setActiveRoomId = useStore((state) => state.setActiveRoomId);
 
   //TODO: useState hook
-  const tasks = [{title: "Test1", priority: "High"}, {title: "Test2", priority: "Medium"}];
+  const tasks = [{title: "Test 1", priority: "High"}, 
+                  {title: "Test 2", priority: "Medium"}, 
+                  {title: "Test 3", priority: "Low"}];
 
   const setAllRooms = async () => {
     const res = await roomRepository.all();
@@ -58,15 +60,15 @@ export default function Home() {
       <div className="flex flex-1">
         {/* Main screen */}
         <main className="flex flex-1">
-          <div className="w-1/2 p-5 border-l border-gray-100">
+          <div className="w-1/2 p-5 border-2 border-gray-100">
             { !loadingRooms && rooms.length === 0 && <p className="text-center">You haven&apos;t created any room yet</p> }
             { rooms.length > 0 && <InventoryList />}
           </div>
-          <div className="w-1/2 p-5 bg-white border-l border-gray-100">
+          <div className="w-1/2 p-5 bg-white border-2 border-gray-100">
             <InventoryDetail />
           </div>
           {/* TaskList */}
-          <div className="w-1/2 p-5 bg-white border-l border-gray-100">
+          <div className="w-1/2 p-5 bg-white border-2 border-gray-100">
             <TaskList tasks={tasks} />
           </div>
         </main>
