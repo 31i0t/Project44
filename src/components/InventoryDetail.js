@@ -4,7 +4,7 @@ import MediaItem from "./MediaItem";
 
 export default function InventoryDetail({item}) {
     return (
-        <div>
+        <div className="m-2">
             <Title label="Inventory" classes={['pl-0','mb-3']} />
             <div className="flex">
                 <div>
