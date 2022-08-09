@@ -11,7 +11,7 @@ import InventoryDetail from "../components/InventoryDetail";
 import CreateRoomModal from "../components/CreateRoomModal";
 import CreateInventoryModal from "../components/CreateInventoryModal";
 // repositories
-import roomRepository from "../services/_roomRepository";
+import roomRepository from "../services/roomRepository";
 import tagRepository from "../services/_tagRepository";
 import inventoryRepository from "../services/_inventoryRepository";
 // hooks

@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { db } from "../../../vendors/firebase";
+import { db, FieldValue } from "../../../vendors/firebase";
 
 export default async function handler(req, res) {
   const { name } = req.body;
@@ -8,6 +8,8 @@ export default async function handler(req, res) {
   await db.collection("rooms").doc(id).set({
     name,
     id,
+    createdAt: FieldValue.serverTimestamp()
   });
-  res.send({ message: `Successfully added ${name} to the database!` });
+  const doc = await db.collection("rooms").doc(id).get();
+  res.status(200).json(doc.data());
 }

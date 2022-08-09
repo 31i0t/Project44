@@ -1,4 +1,4 @@
-const Firestore = require("@google-cloud/firestore");
+const { Firestore, FieldValue } = require("@google-cloud/firestore");
 
 const db = new Firestore({
   projectId: "homehub-c2f7c",
@@ -12,4 +12,4 @@ const db = new Firestore({
 
 db.settings({ ignoreUndefinedProperties: true });
 
-export { db };
+export { db, FieldValue };
