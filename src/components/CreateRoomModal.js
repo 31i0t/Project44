@@ -1,6 +1,6 @@
 import BaseModal from "../components/BaseModal";
 import BaseInput from "../components/BaseInput";
-import roomRepository from "../services/_roomRepository";
+import roomRepository from "../services/roomRepository";
 import { useStore } from "../store";
 import { useState } from "react";
 import useInput from "../hooks/useInput";
@@ -21,8 +21,8 @@ export default function CreateRoomModal() {
   const handleConfirm = async () => {
     setBusy(true);
     const room = await roomRepository.add(input.value);
-    
-    addRoom(await room.json());
+    const data = await room.json();
+    addRoom(data);
     setBusy(false);
     setCreateRoomVisible(false);
     setInput({
