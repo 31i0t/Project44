@@ -2,7 +2,7 @@ const linkDefault = {
     text: 'View details'
 };
 
-export default function MediaItem({title, image = {}, link = {}, size = 'default'}) {
+export default function MediaItem({title, image, link = {}, size = 'default'}) {
     const _link = { ...linkDefault, ...link};
     const itemSize = {
         large: 'py-4',
@@ -15,9 +15,9 @@ export default function MediaItem({title, image = {}, link = {}, size = 'default
     return (
         <div className={`relative flex items-center gap-2 ${itemSize[size]}`}>
             { 
-                image.src && 
+                image && 
                 <picture className={`relative ${pictureSize[size]} overflow-hidden`}>
-                    <img src={image.src} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt={image.alt}/>
+                    <img src={image} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt={title}/>
                 </picture>
             }
             <div className="flex-grow">

@@ -12,8 +12,6 @@ import CreateRoomModal from "../components/CreateRoomModal";
 import CreateInventoryModal from "../components/CreateInventoryModal";
 // repositories
 import roomRepository from "../services/roomRepository";
-import tagRepository from "../services/_tagRepository";
-import inventoryRepository from "../services/_inventoryRepository";
 // hooks
 import {useState, useCallback, useEffect} from "react";
 import {useStore} from "../store";
@@ -21,13 +19,11 @@ import TaskList from "../components/TaskList";
 import Header from "../components/Header";
 
 export default function Home() {
-    const [tags,
-        setTags] = useState([]);
-    const [loadingRooms,
-        setLoadingRooms] = useState(true);
-    const rooms = useStore((state) => state.rooms);
-    const setRooms = useStore((state) => state.setRooms);
-    const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
+  const [tags, setTags] = useState([]);
+  const [loadingRooms, setLoadingRooms] = useState(true);
+  const rooms = useStore((state) => Object.values(state.rooms));
+  const setRooms = useStore((state) => state.setRooms);
+  const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
 
     const activeRoomId = useStore((state) => state.activeRoomId);
     const setActiveRoomId = useStore((state) => state.setActiveRoomId);
@@ -69,10 +65,10 @@ export default function Home() {
                 <meta name="description" content="put some cool description here"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <Header title={appTitle} />     
-            <div className="flex flex-1">                     
+            <Header title={appTitle} />
+            <div className="flex flex-1">
                 {/* Main screen */}
-                <main className="flex flex-1">                    
+                <main className="flex flex-1">
                     <div className="w-full p-3">
                         <div className="bg-white border rounded shadow">
                             <div className="border-b p-3">
@@ -83,7 +79,7 @@ export default function Home() {
                                 {rooms.length > 0 && <InventoryList/>}
                             </div>
                             <InventoryDetail/>
-                        </div>                        
+                        </div>
                     </div>
                     <div className="w-full md:w-1/2 p-3">
                         <div className="bg-white border rounded shadow">
@@ -101,7 +97,7 @@ export default function Home() {
                 <aside className="order-first bg-white w-60 mt-3 ml-1 mb-3 border rounded shadow">
                     <div className="border-b p-3">
                       <h5 className="font-bold uppercase text-gray-600">User Info</h5>
-                    </div>                    
+                    </div>
                     <BaseTitle
                         onAdd={() => setCreateRoomVisible(true)}
                         label="Rooms"
