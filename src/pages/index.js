@@ -22,7 +22,7 @@ import TaskList from "../components/TaskList";
 export default function Home() {
   const [tags, setTags] = useState([]);
   const [loadingRooms, setLoadingRooms] = useState(true);
-  const rooms = useStore((state) => state.rooms);
+  const rooms = useStore((state) => Object.values(state.rooms));
   const setRooms = useStore((state) => state.setRooms);
   const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
 

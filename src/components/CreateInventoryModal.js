@@ -1,6 +1,6 @@
 import BaseModal from "../components/BaseModal";
 import BaseInput from "../components/BaseInput";
-import inventoryRepository from "../services/_inventoryRepository";
+import inventoryRepository from "../services/inventoryRepository";
 import { useStore } from "../store";
 import { useState } from "react";
 import useInput from "../hooks/useInput";

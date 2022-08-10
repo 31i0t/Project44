@@ -1,28 +1,74 @@
 import create from 'zustand'
+import inventoryRepository from '../services/inventoryRepository';
 
 export const useStore = create((set, get) => ({
   activeRoomId: null,
-  setActiveRoomId: (id) => set(() => ({ activeRoomId: id })),
-
-  rooms: [],
+  setActiveRoomId: async (id) => {
+    get().loadRoomInventory(id);
+    set(() => ({ activeRoomId: id }));
+  },
+  rooms: {},
+  inventory: {},
+  loadRoomInventory: async (roomId) => {
+    const room = get().rooms[roomId];
+    // return if already loaded
+    if (room.inventoryLoaded) return;
+    // load room inventory
+    const response = await inventoryRepository.all(roomId);
+    const items = await response.json();
+    get().setInventoryItems(items);
+    get().setInventoryLoaded(roomId);
+  },
+  setInventoryLoaded: (roomId) => set((state) => {
+    const rooms = state.rooms;
+    const room = {...rooms[roomId], inventoryLoaded: true };
+    return {
+      rooms: { ...rooms, [roomId]: room },
+    };
+  }),
   addRoom: (room) => {
-    set((state) => ({ rooms: [...state.rooms, room] }));
+    set((state) => ({ rooms: { ...state.rooms, [room.id]: room } }));
     get().setActiveRoomId(room.id);
   },
-  setRooms: (rooms) => set(() => ({ rooms })),
-
-  addInventoryItem: (item) => set((state) => {
-    const roomIndex = state.rooms.findIndex(r => r.id === item.roomId);
-    const room = { ...state.rooms[roomIndex] };
-    // update inventory
-    room.inventory = [...room.inventory, item];
-    // update rooms
+  setRooms: (rooms) => set(() => {
+    // convert array to object
+    // { roomId: roomData }
     return {
-      rooms: [
-        ...state.rooms.slice(0, roomIndex),
-        room,
-        ...state.rooms.slice(roomIndex + 1),
-      ],
+      rooms: rooms.reduce((output, room) => {
+        output[room.id] = room;
+        return output;
+      }, {}),
+    };
+  }),
+
+
+  setInventoryItems: (items = []) => items.forEach((item) => get().addInventoryItem(item)),
+  addInventoryItem: (item) => set((state) => {
+    const found = state.inventory[item.id];
+    // return if already exist
+    if (found) return;
+
+    // create updated inventory object
+    const updatedInventory = { ...state.inventory, [item.id]: item };
+
+    // add inventory to room
+    const foundRoom = state.rooms[item.roomId];
+    if (!foundRoom) throw new Error('Inventory does not belong to any room');
+
+    let roomToupdate = foundRoom;
+
+    // add to room if not exist
+    if (Array.isArray(foundRoom.inventory) && !foundRoom.inventory.includes(item.id)) {
+      roomToupdate = { ...foundRoom, inventory: [...foundRoom.inventory, item.id ] };
+    }
+
+    // update rooms
+    const updatedRooms = { ...state.rooms, [roomToupdate.id]: roomToupdate };
+
+    // return updates
+    return {
+      rooms: updatedRooms,
+      inventory: updatedInventory,
     };
   }),
 

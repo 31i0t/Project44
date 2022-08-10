@@ -8,7 +8,8 @@ export default async function handler(req, res) {
   await db.collection("rooms").doc(id).set({
     name,
     id,
-    createdAt: FieldValue.serverTimestamp()
+    createdAt: FieldValue.serverTimestamp(),
+    inventory: [],
   });
   const doc = await db.collection("rooms").doc(id).get();
   res.status(200).json(doc.data());

@@ -8,7 +8,7 @@ import useInput from "../hooks/useInput";
 import { trimSpaces, validateInput } from '../utils';
 
 export default function CreateRoomModal() {
-  const rooms = useStore((state) => state.rooms);
+  const rooms = useStore((state) => Object.values(state.rooms));
   const visible = useStore((state) => state.createRoomVisible);
   const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
   const addRoom = useStore((state) => state.addRoom);
