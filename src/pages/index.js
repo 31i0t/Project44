@@ -18,6 +18,7 @@ import inventoryRepository from "../services/_inventoryRepository";
 import {useState, useCallback, useEffect} from "react";
 import {useStore} from "../store";
 import TaskList from "../components/TaskList";
+import Header from "../components/Header";
 
 export default function Home() {
     const [tags,
@@ -57,18 +58,21 @@ export default function Home() {
         setAllRooms();
     }, []);
 
+    const appTitle = "Estatelaza";
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 font-sans leading-normal tracking-normal">
             <CreateRoomModal/>
             <CreateInventoryModal/>
             <Head>
-                <title>Estatelaza</title>
+                <title>{appTitle}</title>
                 <meta name="description" content="put some cool description here"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <div className="flex flex-1">           
+            <Header title={appTitle} />     
+            <div className="flex flex-1">                     
                 {/* Main screen */}
-                <main className="flex flex-1">
+                <main className="flex flex-1">                    
                     <div className="w-full p-3">
                         <div className="bg-white border rounded shadow">
                             <div className="border-b p-3">
