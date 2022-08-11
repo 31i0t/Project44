@@ -31,7 +31,7 @@ export default function Home() {
 
 
     const activeInventoryId = useStore((state) => state.activeInventoryId);
-    // const setActiveInventoryId = useStore((state) => state.setActiveInventoryId);
+    const setActiveInventoryId = useStore((state) => state.setActiveInventoryId);
 
     //TODO: useState hook
     const [tasks,
@@ -59,6 +59,11 @@ export default function Home() {
         setAllRooms();
     }, []);
 
+    const handleSelectRoom = (id) => {
+        setActiveRoomId(id);
+        setActiveInventoryId(null);
+    }
+
     const appTitle = "Estatelaza";
 
     return (
@@ -80,11 +85,20 @@ export default function Home() {
                             className="h-full">
                             <div className="flex h-full -mx-3">
                                 <div className={`flex flex-col ${activeInventoryId ? 'w-1/2' : 'w-full'}`}>
-                                    {!loadingRooms && rooms.length === 0 && <p className="text-center">You haven&apos;t created any room yet</p>}
-                                    {rooms.length > 0 && <InventoryList className="flex-grow" />}
-                                    <div className="mx-3">
-                                        <BaseButton type="danger-blank" size="xs">Delete room</BaseButton>
-                                    </div>
+                                    {
+                                        !loadingRooms && rooms.length === 0 &&
+                                        <p className="text-center">You haven&apos;t created any room yet</p>
+                                    }
+                                    {
+                                        rooms.length > 0 &&
+                                        <InventoryList className="flex-grow" />
+                                    }
+                                    {
+                                        activeRoomId &&
+                                        <div className="mx-3">
+                                            <BaseButton type="danger-blank" size="xs">Delete room</BaseButton>
+                                        </div>
+                                    }
                                 </div>
                                 { activeInventoryId && <div className="w-1/2 h-full"><InventoryDetail/></div> }
                             </div>
@@ -105,9 +119,9 @@ export default function Home() {
                                 className="ml-auto"
                                 type="secondary"
                                 size="xs"
-                                onAdd={() => setCreateRoomVisible(true)}>Add</BaseButton>
+                                onClick={() => setCreateRoomVisible(true)}>Add</BaseButton>
                         }>
-                        <Menu className="-mx-3" items={rooms} active={activeRoomId} onSelect={setActiveRoomId}/>
+                        <Menu className="-mx-3" items={rooms} active={activeRoomId} onSelect={handleSelectRoom}/>
                     </BaseCard>
                     <BaseCard title="Tags">
                         <Tags items={tags}/>

@@ -14,7 +14,7 @@ export default function InventoryDetail() {
     }, [debouncedData]);
 
     return (
-        <div className="p-3 border-l h-full flex flex-col">
+        <div className="px-3 border-l h-full flex flex-col">
             <BaseTitle label={activeInventory.name} dashed={true} />
             <div className="py-2 flex-grow">
                 <BaseTitle label="Description" type="small" dashed={false}/>
@@ -24,7 +24,7 @@ export default function InventoryDetail() {
                     onChange={(e) => setLocalData({ ...localData, description: e.target.value })}
                     value={localData.description} name="body" id="body" />
             </div>
-            <div className="-mb-3">
+            <div className="">
                 <BaseButton type="danger-blank" size="xs">Delete item</BaseButton>
             </div>
         </div>
