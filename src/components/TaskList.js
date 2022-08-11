@@ -1,21 +1,29 @@
 import TaskItem from "./TaskItem";
-import BaseTitle from "./BaseTitle";
+import BaseButton from "./BaseButton";
+import BaseInput from "./BaseInput";
+import useInput from "../hooks/useInput";
+import { validateInput, trimSpaces } from "../utils";
 
 const TaskList = ({tasks, addTasks}) => {
-    
+    const [input, setInput] = useInput('');
+
     return (
-        <div>            
-            <div className="mb-2">
+        <div>
+            <div className="mb-3">
                 <div className="flex">
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 mr-1 text-grey-darker"
-                        placeholder="Add Task"/>
-                    <button
-                        onClick={addTasks}
-                        className="flex-no-shrink p-2 border-2 rounded text-teal border-teal">+</button>
+                    <BaseInput
+                        className="mr-2"
+                        value={input.value}
+                        error={input.error}
+                        placeholder="Add Task"
+                        onChange={(value) => setInput(validateInput(value))} />
+                    <BaseButton
+                        disabled={Boolean(input.error) || trimSpaces(input.value) === ''}
+                        onClick={() => addTasks(input.value)}
+                        type="primary">+</BaseButton>
                 </div>
             </div>
-            <div>
+            <div className="flex flex-col gap-3">
                 {tasks.map(item => TaskItem(item))}
             </div>
         </div>
