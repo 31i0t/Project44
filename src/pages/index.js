@@ -1,8 +1,8 @@
 import Head from "next/head";
 // base components
 import Tags from "../components/Tags";
-import Title from "../components/Title";
-import BaseTitle from "../components/BaseTitle";
+import BaseButton from "../components/BaseButton";
+import BaseCard from "../components/BaseCard";
 import Menu from "../components/Menu";
 // main components
 import InventoryList from "../components/InventoryList";
@@ -25,8 +25,13 @@ export default function Home() {
   const setRooms = useStore((state) => state.setRooms);
   const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
 
+
     const activeRoomId = useStore((state) => state.activeRoomId);
     const setActiveRoomId = useStore((state) => state.setActiveRoomId);
+
+
+    const activeInventoryId = useStore((state) => state.activeInventoryId);
+    // const setActiveInventoryId = useStore((state) => state.setActiveInventoryId);
 
     //TODO: useState hook
     const [tasks,
@@ -35,7 +40,7 @@ export default function Home() {
     const addTasks = (task) => {
         setTasks(previousTasks => [
             ...previousTasks, {
-                title: "A"
+                title: task,
             }
         ])
     };
@@ -66,45 +71,47 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <Header title={appTitle} />
-            <div className="flex flex-1">
+            <div className="flex flex-1 gap-3 p-3">
                 {/* Main screen */}
-                <main className="flex flex-1">
-                    <div className="w-full p-3">
-                        <div className="bg-white border rounded shadow">
-                            <div className="border-b p-3">
-                                <h5 className="font-bold uppercase text-gray-600">Inventory</h5>
+                <main className="flex flex-1 gap-3">
+                    <div className="w-full">
+                        <BaseCard
+                            title="Inventory"
+                            className="h-full">
+                            <div className="flex h-full -mx-3">
+                                <div className={`flex flex-col ${activeInventoryId ? 'w-1/2' : 'w-full'}`}>
+                                    {!loadingRooms && rooms.length === 0 && <p className="text-center">You haven&apos;t created any room yet</p>}
+                                    {rooms.length > 0 && <InventoryList className="flex-grow" />}
+                                    <div className="mx-3">
+                                        <BaseButton type="danger-blank" size="xs">Delete room</BaseButton>
+                                    </div>
+                                </div>
+                                { activeInventoryId && <div className="w-1/2 h-full"><InventoryDetail/></div> }
                             </div>
-                            <div className="p-5">
-                                {!loadingRooms && rooms.length === 0 && <p className="text-center">You haven&apos;t created any room yet</p>}
-                                {rooms.length > 0 && <InventoryList/>}
-                            </div>
-                            <InventoryDetail/>
-                        </div>
+                        </BaseCard>
                     </div>
-                    <div className="w-full md:w-1/2 p-3">
-                        <div className="bg-white border rounded shadow">
-                            <div className="border-b p-3">
-                                <h5 className="font-bold uppercase text-gray-600">Tasks</h5>
-                            </div>
-                            {/* TaskList */}
-                            <div className="p-5 bg-white border-2 border-gray-100">
-                                <TaskList tasks={tasks} addTasks={addTasks}/>
-                            </div>
-                        </div>
+                    <div className="w-full md:w-1/3">
+                        <BaseCard title="Tasks">
+                            <TaskList tasks={tasks} addTasks={addTasks}/>
+                        </BaseCard>
                     </div>
                 </main>
                 {/* Sidebar */}
-                <aside className="order-first bg-white w-60 mt-3 ml-1 mb-3 border rounded shadow">
-                    <div className="border-b p-3">
-                      <h5 className="font-bold uppercase text-gray-600">User Info</h5>
-                    </div>
-                    <BaseTitle
-                        onAdd={() => setCreateRoomVisible(true)}
-                        label="Rooms"
-                        classes={["pl-2"]}/>
-                    <Menu items={rooms} active={activeRoomId} onSelect={setActiveRoomId}/>
-                    <Title label="Tags" classes={["pl-2"]}/>
-                    <Tags items={tags}/>
+                <aside className="order-first flex flex-col gap-3 w-60">
+                    <BaseCard
+                        title="Rooms"
+                        titleAppend={
+                            <BaseButton
+                                className="ml-auto"
+                                type="secondary"
+                                size="xs"
+                                onAdd={() => setCreateRoomVisible(true)}>Add</BaseButton>
+                        }>
+                        <Menu className="-mx-3" items={rooms} active={activeRoomId} onSelect={setActiveRoomId}/>
+                    </BaseCard>
+                    <BaseCard title="Tags">
+                        <Tags items={tags}/>
+                    </BaseCard>
                 </aside>
             </div>
         </div>

@@ -1,31 +1,31 @@
-import Title from "./Title";
-import Box from "./Box";
-import MediaItem from "./MediaItem";
+import BaseTitle from "./BaseTitle";
+import BaseButton from "./BaseButton";
+import { useEffect, useState } from "react";
+import useActiveInventory from '../hooks/useActiveInventory';
+import useDebounce from '../hooks/useDebounce';
 
-export default function InventoryDetail({item}) {
+export default function InventoryDetail() {
+    const activeInventory = useActiveInventory();
+    const [localData, setLocalData] = useState({...activeInventory});
+    const debouncedData = useDebounce(localData, 500);
+
+    useEffect(() => {
+        console.log('changed');
+    }, [debouncedData]);
+
     return (
-        <div className="m-2">
-            <Title label="Inventory" classes={['pl-0','mb-3']} />
-            <div className="flex">
-                <div>
-                    <Title label="Field 1" type={4} dashed={false} />
-                    <div className="mb-2">Lorem </div>
-                    <Title label="Field 2" type={4} dashed={false} />
-                    <div className="mb-2">Lorem </div>
-                </div>
-                <div className="flex flex-col gap-2 ml-auto w-1/3 text-sm">
-                    <Box>
-                        <Title label="Attachments" classes={['-mt-2','mb-2']} add={true} type={5} dashed={false} />
-                        <MediaItem
-                            title="Some file"
-                            image={{ src: 'https://placekitten.com/200/300' }}
-                        />
-                    </Box>
-                    <Box>
-                        <Title label="Tags" classes={['-mt-2','mb-2']} add={true} type={5} dashed={false} />
-                        lorem ipsum
-                    </Box>
-                </div>
+        <div className="p-3 border-l h-full flex flex-col">
+            <BaseTitle label={activeInventory.name} dashed={true} />
+            <div className="py-2 flex-grow">
+                <BaseTitle label="Description" type="small" dashed={false}/>
+                <p>{ activeInventory.description }</p>
+                <textarea
+                    className="w-full border h-20 p-3"
+                    onChange={(e) => setLocalData({ ...localData, description: e.target.value })}
+                    value={localData.description} name="body" id="body" />
+            </div>
+            <div className="-mb-3">
+                <BaseButton type="danger-blank" size="xs">Delete item</BaseButton>
             </div>
         </div>
     );

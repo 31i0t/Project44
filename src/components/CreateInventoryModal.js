@@ -39,7 +39,7 @@ export default function CreateRoomModal() {
       onCancel={handleCancel}
       onConfirm={handleConfirm}>
       <BaseInput
-        value={input.name}
+        value={input.value}
         error={input.error}
         placeholder="Asset name"
         onChange={(value) => setInput(validateInput(value, inventory.map(i => i.name)))} />

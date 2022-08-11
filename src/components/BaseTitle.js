@@ -1,17 +1,38 @@
-export default function BaseTitle({ type = 3, onAdd, label, classes = [], dashed = true }) {
-  const tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-  const sizes = ['text-3xl', 'text-2xl', 'text-xl', 'text-xl', 'text-base', 'text-sm'];
-  const Tag = tags[type -1];
-  const size = sizes[type -1];
-  let color = '';
-  if (type === 4 || type === 5) {
-      color = 'text-gray-500';
+export default function BaseTitle(props) {
+  const {
+    type = 'default',
+    label,
+    dashed = false,
+    className = '',
+  } = props;
+  const tagByType = {
+    default: 'h4',
+    main: 'h3',
+    small: 'h5',
+  }
+  const Tag = tagByType[type];
+
+  let titleClass = '';
+  let containerClass = className;
+
+  if (type === 'main') {
+    titleClass += 'font-bold text-gray-600 uppercase';
+    containerClass += `py-3 ${dashed ? ' border-b' : ''}`;
+  }
+
+  if (type === 'default') {
+    titleClass += 'text-xl text-gray-600 capitalize';
+    containerClass += `py-3 ${dashed ? ' border-b' : ''}`;
+  }
+
+  if (type === 'small') {
+    titleClass += 'font-bold text-gray-500 capitalize';
+    containerClass += `py-2 ${dashed ? ' border-b' : ''}`;
   }
 
   return (
-    <div className={`flex ${dashed && 'border-b border-gray-100'} ${color} ${classes.join(' ')}`}>
-      <Tag className={`${size} py-2`}>{label}</Tag>
-      {onAdd && <button className="ml-auto p-2 hover:bg-gray-100" onClick={onAdd}>+</button>}
+    <div className={containerClass}>
+      <Tag className={titleClass}>{label}</Tag>
     </div>
   );
 }

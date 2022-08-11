@@ -7,6 +7,11 @@ export const useStore = create((set, get) => ({
     get().loadRoomInventory(id);
     set(() => ({ activeRoomId: id }));
   },
+  activeInventoryId: null,
+  setActiveInventoryId: async (id) => {
+    // get().loadRoomInventory(id);
+    set(() => ({ activeInventoryId: id }));
+  },
   rooms: {},
   inventory: {},
   loadRoomInventory: async (roomId) => {
