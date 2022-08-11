@@ -74,8 +74,9 @@ export default function Home() {
                 <title>{appTitle}</title>
                 <meta name="description" content="put some cool description here"/>
                 <link rel="icon" href="/favicon.ico"/>
-            </Head>
+            </Head>            
             <Header title={appTitle} />
+           
             <div className="flex flex-1 gap-3 p-3">
                 {/* Main screen */}
                 <main className="flex flex-1 gap-3">
