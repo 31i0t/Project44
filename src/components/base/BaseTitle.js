@@ -4,6 +4,7 @@ export default function BaseTitle(props) {
     label,
     dashed = false,
     className = '',
+    onClick = () => '',
   } = props;
   const tagByType = {
     default: 'h4',
@@ -31,7 +32,7 @@ export default function BaseTitle(props) {
   }
 
   return (
-    <div className={containerClass}>
+    <div className={containerClass} onClick={onClick}>
       <Tag className={titleClass}>{label}</Tag>
     </div>
   );

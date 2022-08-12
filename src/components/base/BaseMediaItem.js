@@ -2,7 +2,7 @@ const linkDefault = {
     text: 'View details'
 };
 
-export default function MediaItem({title, image, link = {}, size = 'default'}) {
+export default function BaseMediaItem({title, image, link = {}, size = 'default'}) {
     const _link = { ...linkDefault, ...link};
     const itemSize = {
         large: 'py-4',

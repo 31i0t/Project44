@@ -1,5 +1,6 @@
 import create from 'zustand'
 import inventoryRepository from '../services/inventoryRepository';
+import roomRepository from '../services/roomRepository';
 
 export const useStore = create((set, get) => ({
   activeRoomId: null,
@@ -82,4 +83,47 @@ export const useStore = create((set, get) => ({
 
   createInventoryVisible: false,
   setCreateInventoryVisible: (visible) => set(() => ({ createInventoryVisible: visible })),
+  loadingRooms: false,
+  setLoadingRooms: (value) => set({ loadingRooms: value }),
+  editRoomEnabled: false,
+  setEditRoomEnabled: (value) => set({ editRoomEnabled: value }),
+  setUpdatedRoom: (id, changes) => {
+    set((state) => ({
+      rooms: {
+        ...state.rooms,
+        [id]: {
+          ...state.rooms[id],
+          ...changes,
+        },
+      }
+    }));
+  },
+  setDeletedRoom: (id) => {
+    set((state) => {
+      const rooms = { ...state.rooms };
+      delete rooms[id];
+      return {
+        rooms,
+      }
+    });
+  },
+  updateRoom: async (id, changes) => {
+    const prevState = get().rooms[id];
+    try {
+      get().setUpdatedRoom(id, changes)
+      await roomRepository.update(id, changes);
+    } catch (err) {
+      get().setUpdatedRoom(id, prevState);
+    }
+  },
+  deleteRoom: async (id, changes) => {
+    const prevState = get().rooms[id];
+    try {
+      get().setDeletedRoom(id)
+      await roomRepository.delete(id);
+    } catch (err) {
+      // restore
+      get().setUpdatedRoom(id, prevState);
+    }
+  }
 }));

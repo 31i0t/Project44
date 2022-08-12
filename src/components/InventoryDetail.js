@@ -1,5 +1,5 @@
-import BaseTitle from "./BaseTitle";
-import BaseButton from "./BaseButton";
+import BaseTitle from "./base/BaseTitle";
+import BaseButton from "./base/BaseButton";
 import { useEffect, useState } from "react";
 import useActiveInventory from '../hooks/useActiveInventory';
 import useDebounce from '../hooks/useDebounce';

@@ -1,6 +1,6 @@
 import TaskItem from "./TaskItem";
-import BaseButton from "./BaseButton";
-import BaseInput from "./BaseInput";
+import BaseButton from "./base/BaseButton";
+import BaseInput from "./base/BaseInput";
 import useInput from "../hooks/useInput";
 import { validateInput, trimSpaces } from "../utils";
 

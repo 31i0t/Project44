@@ -1,4 +1,4 @@
-import Pill from "./Pill";
+import Pill from "./base/BasePill";
 
 export default function Tags({ items }) {
     const itemsList = items.map((item) => {

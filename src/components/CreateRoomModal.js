@@ -1,5 +1,5 @@
-import BaseModal from "../components/BaseModal";
-import BaseInput from "../components/BaseInput";
+import BaseModal from "../components/base/BaseModal";
+import BaseInput from "../components/base/BaseInput";
 import roomRepository from "../services/roomRepository";
 import { useStore } from "../store";
 import { useState } from "react";

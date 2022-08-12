@@ -14,6 +14,7 @@ export default function BaseButton(props) {
     'danger-outline': 'bg-white text-red-500 hover:bg-red-100 border border-red-300 disabled:opacity-25 disabled:cursor-not-allowed',
     'danger-blank': 'bg-white text-red-500 hover:bg-red-100 disabled:opacity-25 disabled:cursor-not-allowed',
     blank: 'bg-white text-grey hover:bg-gray-100 disabled:opacity-25 disabled:cursor-not-allowed',
+    success: 'bg-teal-400 text-white hover:bg-teal-500 disabled:opacity-25 disabled:cursor-not-allowed',
   }
 
   const sizeClass = {
