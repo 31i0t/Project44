@@ -6,7 +6,7 @@ const TaskItem = ({title}) => {
                 id="flowbite"
                 aria-describedby="flowbite"
                 type="checkbox"/>
-            <p className="w-full text-grey-darkest">{title}</p>
+            <p className="w-full text-grey-darkest">{title}</p>            
             <button
                 className="text-pink-500 background-transparent font-bold px-3 py-2 text-sm outline-none focus:outline-none"
                 type="button">Remove</button>

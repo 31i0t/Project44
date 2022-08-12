@@ -10,6 +10,7 @@ import TaskList from "../components/TaskList";
 import Header from "../components/Header";
 import RoomList from "../components/RoomList";
 import RoomInventory from "../components/RoomInventory";
+import AssetQuote from "../components/AssetQuote";
 
 export default function Home() {
     const [tags, setTags] = useState([]);
@@ -26,6 +27,7 @@ export default function Home() {
     };
 
     const appTitle = "Estatelaza";
+    const appSummary = "Manage assets and inventories of your home seamlessly...";
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 font-sans leading-normal tracking-normal">
@@ -36,8 +38,8 @@ export default function Home() {
                 <meta name="description" content="put some cool description here"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <Header title={appTitle} />
-
+            <Header title={appTitle} summary={appSummary} />
+            <AssetQuote />
             <div className="flex flex-1 gap-3 p-3">
                 {/* Main screen */}
                 <main className="flex flex-1 gap-3">
