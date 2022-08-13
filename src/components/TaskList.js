@@ -4,7 +4,7 @@ import BaseInput from "./base/BaseInput";
 import useInput from "../hooks/useInput";
 import { validateInput, trimSpaces } from "../utils";
 
-const TaskList = ({tasks, addTasks}) => {
+const TaskList = ({tasks, addTask}) => {
     const [input, setInput] = useInput('');
 
     return (
@@ -19,7 +19,7 @@ const TaskList = ({tasks, addTasks}) => {
                         onChange={(value) => setInput(validateInput(value))} />
                     <BaseButton
                         disabled={Boolean(input.error) || trimSpaces(input.value) === ''}
-                        onClick={() => addTasks(input.value)}
+                        onClick={() => addTask(input.value)}
                         type="primary">+</BaseButton>
                 </div>
             </div>

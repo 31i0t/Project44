@@ -18,7 +18,7 @@ export default function Home() {
     const [tasks,
         setTasks] = useState([{title: "Task 1"}, {title: "Task 2"}]);
 
-    const addTasks = (task) => {
+    const addTask = (task) => {
         setTasks(previousTasks => [
             ...previousTasks, {
                 title: task,
@@ -48,7 +48,7 @@ export default function Home() {
                     </div>
                     <div className="w-full md:w-1/3">
                         <BaseCard title="Tasks">
-                            <TaskList tasks={tasks} addTasks={addTasks}/>
+                            <TaskList tasks={tasks} addTasks={addTask}/>
                         </BaseCard>
                     </div>
                 </main>
