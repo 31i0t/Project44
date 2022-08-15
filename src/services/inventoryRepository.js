@@ -15,13 +15,13 @@ const methods = {
       body: JSON.stringify({ roomId, name })
     });
   },
-  update({ id, name, inventory}) {
+  update(id, changes) {
     return fetch(`${BASE_URL}/api/inventory/update`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id, name, description, fields })
+      body: JSON.stringify({ id, ...changes })
     });
   },
   delete(id) {

@@ -31,6 +31,8 @@ export default function CreateRoomModal() {
     })
   }
 
+  const handleInputChange = (evt) => setInput(validateInput(evt.target.value, rooms.map(r => r.name)))
+
 
   return (
     <BaseModal
@@ -44,7 +46,7 @@ export default function CreateRoomModal() {
         value={input.value}
         error={input.error}
         placeholder="Room name"
-        onChange={(value) => setInput(validateInput(value, rooms.map(r => r.name)))} />
+        onChange={handleInputChange} />
     </BaseModal>
   );
 }

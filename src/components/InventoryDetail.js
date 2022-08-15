@@ -1,31 +1,42 @@
+import { useStore } from "../store";
+
 import BaseTitle from "./base/BaseTitle";
+import BaseInput from "./base/BaseInput";
 import BaseButton from "./base/BaseButton";
-import { useEffect, useState } from "react";
 import useActiveInventory from '../hooks/useActiveInventory';
-import useDebounce from '../hooks/useDebounce';
+import BaseEditableInput from "./base/BaseEditableInput";
+import BaseContent from "./base/BaseContent";
+
 
 export default function InventoryDetail() {
+    const updateItem = useStore((state) => state.updateItem);
     const activeInventory = useActiveInventory();
-    const [localData, setLocalData] = useState({...activeInventory});
-    const debouncedData = useDebounce(localData, 500);
 
-    useEffect(() => {
-        console.log('changed');
-    }, [debouncedData]);
+    const handleChange = (prop, value) => {
+        updateItem('inventory', activeInventory.id, {
+            [prop]: value,
+        });
+    };
 
     return (
         <div className="px-3 border-l h-full flex flex-col">
-            <BaseTitle label={activeInventory.name} dashed={true} />
             <div className="py-2 flex-grow">
-                <BaseTitle label="Description" type="small" dashed={false}/>
-                <p>{ activeInventory.description }</p>
-                <textarea
-                    className="w-full border h-20 p-3"
-                    onChange={(e) => setLocalData({ ...localData, description: e.target.value })}
-                    value={localData.description} name="body" id="body" />
+                <BaseEditableInput
+                    content={<BaseTitle size="large">{activeInventory.name}</BaseTitle>}
+                    input={<BaseInput value={activeInventory.name}/>}
+                    onChange={(value) => handleChange('name', value)}
+                />
+                <BaseTitle>Description</BaseTitle>
+                <BaseEditableInput
+                    input={
+                        <textarea className="w-full border h-40 p-3" multiline="true" value={activeInventory.description} />
+                    }
+                    content={<BaseContent>{ activeInventory.description }</BaseContent>}
+                    onChange={(value) => handleChange('description', value)}
+                />
             </div>
             <div className="">
-                <BaseButton type="danger-blank" size="xs">Delete item</BaseButton>
+                <BaseButton type="danger-blank" size="sm">Delete item</BaseButton>
             </div>
         </div>
     );

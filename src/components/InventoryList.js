@@ -1,4 +1,3 @@
-import BaseTitle from "./base/BaseTitle";
 import MediaItem from "./base/BaseMediaItem";
 import BaseButton from "./base/BaseButton";
 import useActiveRoom from "../hooks/useActiveRoom";

@@ -2,6 +2,11 @@ import create from 'zustand'
 import inventoryRepository from '../services/inventoryRepository';
 import roomRepository from '../services/roomRepository';
 
+const dbConfig = {
+  room: ['rooms', roomRepository],
+  inventory: ['inventory', inventoryRepository],
+}
+
 export const useStore = create((set, get) => ({
   activeRoomId: null,
   setActiveRoomId: async (id) => {
@@ -98,7 +103,18 @@ export const useStore = create((set, get) => ({
       }
     }));
   },
-  setDeletedRoom: (id) => {
+  setUpdatedItem: (collection, id, changes) => {
+    set((state) => ({
+      [collection]: {
+        ...state[collection],
+        [id]: {
+          ...state[collection][id],
+          ...changes,
+        },
+      }
+    }));
+  },
+  setDeletedItem: (id) => {
     set((state) => {
       const rooms = { ...state.rooms };
       delete rooms[id];
@@ -107,23 +123,24 @@ export const useStore = create((set, get) => ({
       }
     });
   },
-  updateRoom: async (id, changes) => {
-    const prevState = get().rooms[id];
+  updateItem: async (type, id, changes) => {
+    const [collection, repository] = dbConfig[type];
+    const prevState = get()[collection][id];
     try {
-      get().setUpdatedRoom(id, changes)
-      await roomRepository.update(id, changes);
+      get().setUpdatedItem(collection, id, changes);
+      await repository.update(id, changes);
     } catch (err) {
-      get().setUpdatedRoom(id, prevState);
+      get().setUpdatedItem(collection, id, prevState);
     }
   },
   deleteRoom: async (id, changes) => {
     const prevState = get().rooms[id];
     try {
-      get().setDeletedRoom(id)
+      get().setDeletedItem(id)
       await roomRepository.delete(id);
     } catch (err) {
       // restore
-      get().setUpdatedRoom(id, prevState);
+      get().setUpdatedItem(id, prevState);
     }
   }
 }));
