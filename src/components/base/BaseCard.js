@@ -13,7 +13,7 @@ export default function BaseCard(props) {
         {
           title &&
           <div className="flex items-center p-3 border-b">
-            <BaseTitle type="main" label={title} className="-my-3" />
+            <BaseTitle size="main"className="-my-3">{title}</BaseTitle>
             {titleAppend}
           </div>
         }

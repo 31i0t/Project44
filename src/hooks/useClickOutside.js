@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 
-export default function useClickOutside(ref, callback) {
+export default function useClickOutside(ref, callback, ) {
+  const refs = Array.isArray(ref) ? ref : [ref];
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
      */
     function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
+      const currents = refs.map((ref) => ref.current);
+      const trigger = currents.every((current) => current && !current.contains(event.target));
+      if (trigger) {
         callback();
       }
     }
@@ -15,5 +18,5 @@ export default function useClickOutside(ref, callback) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, refs);
 }

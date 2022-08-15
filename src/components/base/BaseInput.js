@@ -1,5 +1,5 @@
 export default function BaseInput(props) {
-  const { value, onChange = () => '', placeholder, error, className } = props;
+  const { value, onChange = () => '', onKeyDown = () => '', placeholder, error, className } = props;
 
   const classes = {
     normal: 'border-gray-200 border block border-solid w-full p-2 outline-none appearance-none',
@@ -14,7 +14,8 @@ export default function BaseInput(props) {
         placeholder={placeholder}
         className={`${inputClass}`}
         type="text"
-        onChange={(evt) => onChange(evt.target.value)}
+        onKeyDown={onKeyDown}
+        onChange={onChange}
       />
       { error && <p className="text-red-500 absolute -top-2 text-xs left-1 bg-white px-1">{ error }</p> }
     </div>

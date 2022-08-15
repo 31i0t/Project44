@@ -41,11 +41,11 @@ export default function RoomList() {
     <BaseCard
       title="Rooms"
       titleAppend={
-        <BaseButton
+        rooms.length > 0 && <BaseButton
           className="ml-auto"
           type="secondary"
           size="xs"
-          onClick={() => setCreateRoomVisible(true)}>Add</BaseButton>
+          onClick={() => setCreateRoomVisible(true)}>+</BaseButton>
       }>
       { loadingRooms && <BaseListSkeleton /> }
       { !loadingRooms &&
@@ -61,6 +61,14 @@ export default function RoomList() {
             ))}
           </ul>
         </nav>
+      }
+      {
+        !loadingRooms && rooms.length === 0 &&
+        <BaseButton
+          className="w-full"
+          type="secondary"
+          size="sm"
+          onClick={() => setCreateRoomVisible(true)}>Create new room</BaseButton>
       }
       </BaseCard>
   );

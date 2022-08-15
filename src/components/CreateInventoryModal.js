@@ -28,6 +28,8 @@ export default function CreateRoomModal() {
     setInput()
   }
 
+  const handleInputChange = (evt) => setInput(validateInput(evt.target.value, inventory.map(i => i.name)))
+
   const { inventory = [] } = activeRoom || {};
 
   return (
@@ -42,7 +44,7 @@ export default function CreateRoomModal() {
         value={input.value}
         error={input.error}
         placeholder="Asset name"
-        onChange={(value) => setInput(validateInput(value, inventory.map(i => i.name)))} />
+        onChange={handleInputChange} />
     </BaseModal>
   );
 }
