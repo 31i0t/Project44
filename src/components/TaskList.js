@@ -24,7 +24,7 @@ const TaskList = ({tasks, addTask}) => {
                 </div>
             </div>
             <div className="flex flex-col gap-3">
-                {tasks.map(item => TaskItem(item))}
+                {tasks.map(item => <TaskItem key={item.title} title={item.title} /> )}
             </div>
         </div>
     );
