@@ -10,7 +10,7 @@ import TaskList from "../components/TaskList";
 import Header from "../components/Header";
 import RoomList from "../components/RoomList";
 import RoomInventory from "../components/RoomInventory";
-// import Quote from "../components/Quote";
+import Quote from "../components/Quote";
 
 export default function Home() {
     const [tags, setTags] = useState([]);
@@ -39,7 +39,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <Header title={appTitle} summary={appSummary} />
-            {/* <Quote /> */}
+            <Quote />
             <div className="flex flex-1 gap-3 p-3">
                 {/* Main screen */}
                 <main className="flex flex-1 gap-3">
