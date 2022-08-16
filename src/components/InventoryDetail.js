@@ -11,6 +11,7 @@ import BaseContent from "./base/BaseContent";
 export default function InventoryDetail() {
     const updateItem = useStore((state) => state.updateItem);
     const activeInventory = useActiveInventory();
+    const setActiveInventoryId = useStore((state) => state.setActiveInventoryId);
 
     const handleChange = (prop, value) => {
         updateItem('inventory', activeInventory.id, {
@@ -19,7 +20,8 @@ export default function InventoryDetail() {
     };
 
     return (
-        <div className="px-3 border-l h-full flex flex-col">
+        <div className="px-3 border-l h-full flex flex-col relative">
+            <div className="close-button" onClick={() => setActiveInventoryId()} />
             <div className="py-2 flex-grow">
                 <BaseEditableInput
                     content={<BaseTitle size="large">{activeInventory.name}</BaseTitle>}
@@ -31,7 +33,7 @@ export default function InventoryDetail() {
                     input={
                         <textarea className="w-full border h-40 p-3" multiline="true" value={activeInventory.description} />
                     }
-                    content={<BaseContent>{ activeInventory.description }</BaseContent>}
+                    content={<BaseContent>Click here to edit this field. <br></br>After updating, press enter to submit</BaseContent>}
                     onChange={(value) => handleChange('description', value)}
                 />
             </div>

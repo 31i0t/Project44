@@ -11,7 +11,7 @@ export default function BaseIcon(props) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}>
       {
-        children.map((c) => cloneElement(c, {hover}))
+        children.map((child, index) => cloneElement(child, { key: index, hover}))
       }
     </div>
   )

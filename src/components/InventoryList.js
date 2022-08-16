@@ -33,13 +33,14 @@ export default function InventoryList(props) {
     return (
       <li
         key={item.id}
-        className={`bg-white border-b border-gray-100 px-3 hover:cursor-pointer ${ item.id === activeInventoryId && 'bg-blue-100'} ${ item.id !== activeInventoryId && 'hover:bg-slate-50'}`}
+        className={`flex items-center bg-white border-b border-gray-100 px-3 hover:cursor-pointer ${ item.id === activeInventoryId && 'bg-blue-100'} ${ item.id !== activeInventoryId && 'hover:bg-slate-50'}`}
         onClick={() => setActiveInventoryId(item.id)}>
         <MediaItem
           title={item.name}
           image={item.image}
           size="large"
         />
+        <div className="ml-auto chevron-right"/>
       </li>
     );
   });

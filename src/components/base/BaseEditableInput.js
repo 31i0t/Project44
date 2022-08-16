@@ -53,7 +53,7 @@ export default function BaseEditableInput(props) {
         <div ref={titleRef} className="flex">
             { !editMode &&
                 <BaseHover className="flex items-center gap-2 cursor-pointer" onClick={handleEditMode}>
-                    { cloneElement(content, { children: localInput.value }) }<BaseIcon name="edit" />
+                    { cloneElement(content, { children: localInput.value || content.props.children }) }<BaseIcon name="edit" />
                 </BaseHover>
             }
         </div>

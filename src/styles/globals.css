@@ -37,6 +37,39 @@ body {
   }
 }
 
+.chevron-right {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #666;
+  border-top: 2px solid #666;
+  transform: rotate(45deg);
+}
+
+.close-button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: .5rem;
+  top: 0;
+  cursor: pointer;
+}
+.close-button:before,
+.close-button:after {
+  content: "";
+  display: block;
+  width: 15px;
+  height: 2px;
+  background-color: rgb(180, 180, 180);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  position: absolute;
+}
+
+.close-button:after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
 .main-banner {
   background-image: linear-gradient(90deg, #72A0C1 30%, #F08080 50%, #72A0C1 100%);
   font-family: 'Merienda One', cursive;
