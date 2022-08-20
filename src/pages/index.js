@@ -1,18 +1,23 @@
-import {useState, useCallback, useEffect} from "react";
-import {useStore} from "../store";
+import { useState, useEffect } from "react";
+import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Head from "next/head";
 
 import Tags from "../components/Tags";
 import BaseCard from "../components/base/BaseCard";
-import CreateRoomModal from "../components/CreateRoomModal";
-import CreateInventoryModal from "../components/CreateInventoryModal";
 import TaskList from "../components/TaskList";
 import Header from "../components/Header";
 import RoomList from "../components/RoomList";
 import RoomInventory from "../components/RoomInventory";
 // import Quote from "../components/Quote";
 
+import { useFetchRooms } from "../hooks/useRoomRepository";
+
+
 export default function Home() {
+    const fetchRooms = useFetchRooms();
     const [tags, setTags] = useState([]);
     //TODO: useState hook
     const [tasks,
@@ -25,14 +30,19 @@ export default function Home() {
             }
         ])
     };
+    // toast("Wow so easy !");
 
     const appTitle = "Estatelaza";
     const appSummary = "Manage assets and inventories of your home seamlessly...";
 
+    useEffect(() => {
+        fetchRooms();
+    }, []);
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 font-sans leading-normal tracking-normal">
-            <CreateRoomModal/>
-            <CreateInventoryModal/>
+            <Toaster />
+            <ToastContainer />
             <Head>
                 <title>{appTitle}</title>
                 <meta name="description" content="put some cool description here"/>

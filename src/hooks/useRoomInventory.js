@@ -1,4 +1,4 @@
-import { useStore } from '../store';
+import { useStore } from "../store/index";
 
 const useRoomInventory = () => {
   const room = useStore((state) => state.rooms[state.activeRoomId]);

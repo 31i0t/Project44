@@ -1,5 +1,13 @@
 export default function BaseInput(props) {
-  const { value, onChange = () => '', onKeyDown = () => '', placeholder, error, className } = props;
+  const {
+    value,
+    onChange = () => '',
+    onKeyDown = () => '',
+    placeholder,
+    error,
+    className,
+    autoFocus,
+  } = props;
 
   const classes = {
     normal: 'border-gray-200 border block border-solid w-full p-2 outline-none appearance-none',
@@ -10,6 +18,7 @@ export default function BaseInput(props) {
   return (
     <div className={`w-full relative ${className}`}>
       <input
+        autoFocus={autoFocus}
         value={value}
         placeholder={placeholder}
         className={`${inputClass}`}

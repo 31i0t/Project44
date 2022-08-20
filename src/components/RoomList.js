@@ -1,75 +1,56 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useStore } from "../store";
-import roomRepository from "../services/roomRepository";
 
 import BaseMediaItem from "./base/BaseMediaItem";
 import BaseCard from "./base/BaseCard";
 import BaseButton from "./base/BaseButton";
 import BaseListSkeleton from "./base/BaseListSkeleton";
+import CreateRoomModal from "./modals/CreateRoomModal";
 
 export default function RoomList() {
   const activeRoomId = useStore((state) => state.activeRoomId);
-  const rooms = useStore((state) => Object.values(state.rooms));
   const loadingRooms = useStore((state) => state.loadingRooms);
-  const setRooms = useStore((state) => state.setRooms);
-  const setCreateRoomVisible = useStore((state) => state.setCreateRoomVisible);
-  const setLoadingRooms = useStore((state) => state.setLoadingRooms);
+  const rooms = useStore((state) => Object.values(state.rooms));
   const setActiveRoomId = useStore((state) => state.setActiveRoomId);
-  const setActiveInventoryId = useStore((state) => state.setActiveInventoryId);
 
-  const setAllRooms = async() => {
-    setLoadingRooms(true);
-    const res = await roomRepository.all();
-    const rooms = await res.json();
-    if (rooms.length) {
-      setRooms(rooms);
-      setActiveRoomId(rooms[0].id);
-    }
-    setLoadingRooms(false);
-  };
-
-  useEffect(() => {
-    setAllRooms();
-  }, []);
+  const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
 
   const handleSelectRoom = (id) => {
     setActiveRoomId(id);
-    setActiveInventoryId(null);
   }
 
-  return (
-    <BaseCard
-      title="Rooms"
-      titleAppend={
-        rooms.length > 0 && <BaseButton
-          className="ml-auto"
-          type="secondary"
-          size="xs"
-          onClick={() => setCreateRoomVisible(true)}>+</BaseButton>
-      }>
-      { loadingRooms && <BaseListSkeleton /> }
-      { !loadingRooms &&
-        <nav className="-mx-3">
-          <ul>
-            {rooms.map(({ id, name }) => (
-              <li
-                key={id}
-                className={`border-b border-gray-100 px-2 py  ${activeRoomId !== id && 'hover:bg-slate-50' } ${activeRoomId === id && 'bg-blue-100'} `}
-                onClick={ () => handleSelectRoom(id) }>
-                <BaseMediaItem title={name} link={{ href: "#", text: name }} />
-              </li>
-            ))}
-          </ul>
-        </nav>
-      }
-      {
-        !loadingRooms && rooms.length === 0 &&
-        <BaseButton
-          className="w-full"
-          type="secondary"
-          size="sm"
-          onClick={() => setCreateRoomVisible(true)}>Create new room</BaseButton>
-      }
-      </BaseCard>
-  );
+  return <BaseCard
+    title="Rooms"
+    titleAppend={
+      rooms.length > 0 && <BaseButton
+        className="ml-auto"
+        type="secondary"
+        size="xs"
+        onClick={() => setShowCreateRoomModal(true)}>+</BaseButton>
+    }>
+    { loadingRooms && <BaseListSkeleton /> }
+    { !loadingRooms &&
+      <nav className="-mx-3">
+        <ul>
+          {rooms.map(({ id, name }) => (
+            <li
+              key={id}
+              className={`border-b border-gray-100 px-2 py  ${activeRoomId !== id && 'hover:bg-slate-50' } ${activeRoomId === id && 'bg-blue-100'} `}
+              onClick={ () => handleSelectRoom(id) }>
+              <BaseMediaItem title={name} link={{ href: "#", text: name }} />
+            </li>
+          ))}
+        </ul>
+      </nav>
+    }
+    {
+      !loadingRooms && rooms.length === 0 &&
+      <BaseButton
+        className="w-full"
+        type="secondary"
+        size="sm"
+        onClick={() => setShowCreateRoomModal(true)}>Create new room</BaseButton>
+    }
+    { showCreateRoomModal && <CreateRoomModal onCancel={() => setShowCreateRoomModal(false)} onConfirm={() => setShowCreateRoomModal(false)} /> }
+  </BaseCard>;
 }

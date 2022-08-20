@@ -1,32 +1,50 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useStore } from "../store";
-import roomRepository from "../services/roomRepository";
+import { useDeleteRoom } from "../hooks/useRoomRepository";
 
-import BaseCard from "./base/BaseCard";
 import BaseButton from "./base/BaseButton";
-import BaseListSkeleton from "./base/BaseListSkeleton";
-import InventoryList from "./InventoryList";
-import InventoryDetail from "./InventoryDetail";
-import BaseTitle from "./base/BaseTitle";
-import useActiveRoom from "../hooks/useActiveRoom";
-import BaseInput from "./base/BaseInput";
+import BaseCard from "./base/BaseCard";
 import BaseEditableInput from "./base/BaseEditableInput";
+import BaseInput from "./base/BaseInput";
+import BaseListSkeleton from "./base/BaseListSkeleton";
+import BaseModal from "./base/BaseModal";
+import BaseTitle from "./base/BaseTitle";
+import InventoryDetail from "./InventoryDetail";
+import InventoryList from "./InventoryList";
+import useActiveRoom from "../hooks/useActiveRoom";
+
 
 export default function RoomInventory() {
-  const activeRoom = useActiveRoom();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // const [showCreateInventoryModal, setShowCreateInventoryModal] = useState(false);
   const activeInventoryId = useStore((state) => state.activeInventoryId);
+  // const deleteRoom = useDeleteRoom();
+  const activeRoom = useActiveRoom();
   const loadingRooms = useStore((state) => state.loadingRooms);
   const rooms = useStore((state) => Object.values(state.rooms));
-  const setCreateInventoryVisible = useStore((state) => state.setCreateInventoryVisible);
   const updateItem = useStore((state) => state.updateItem);
 
-  const handleDelete = () => roomRepository.delete(activeRoom.id);
-  const handleAddItem = () => setCreateInventoryVisible(true);
+  const handleAddItem = () => setShowCreateInventoryModal(true);
 
   const handleChangeRoomName = (name) => {
     updateItem('room', activeRoom.id, {
       name,
     });
+  }
+
+  const handleDelete = async () => {
+    setShowDeleteModal(true);
+    const confirm = await new Promise((resolve) => {
+      ({
+        cancelDelete: () => resolve(false),
+        confirmDelete: () => resolve(true),
+      });
+    });
+    debugger
+    if (await confirm) {
+      // await deleteRoom(activeRoom.id)
+    }
+    setShowDeleteModal(false);
   }
 
   return <BaseCard title="Inventory" className="h-full">
@@ -37,6 +55,9 @@ export default function RoomInventory() {
         }
         {
           !loadingRooms && rooms.length === 0 && <p className="text-center">You haven&apos;t created any rooms yet.</p>
+        }
+        {
+          !loadingRooms && rooms.length > 0 && !activeRoom.id && <p className="text-center">Please select a room from the left menu.</p>
         }
         {
           !loadingRooms && activeRoom.id && (
@@ -61,5 +82,12 @@ export default function RoomInventory() {
       </div>
       { activeInventoryId && <div className="w-1/2 h-full"><InventoryDetail/></div> }
     </div>
+    <BaseModal
+      visible={showDeleteModal}
+      title={`Are you sure you want to delete ${activeRoom.name}?`}
+      onCancel={() => deleteHandlers.cancelDelete()}
+      onConfirm={() => deleteHandlers.confirmDelete()}>
+        This action cannot be reverted, all assets in this room will be lost.
+      </BaseModal>
   </BaseCard>
 }

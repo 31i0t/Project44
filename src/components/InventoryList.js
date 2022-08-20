@@ -1,5 +1,4 @@
 import MediaItem from "./base/BaseMediaItem";
-import BaseButton from "./base/BaseButton";
 import useActiveRoom from "../hooks/useActiveRoom";
 import { useStore } from "../store";
 import useRoomInventory from "../hooks/useRoomInventory";
@@ -13,8 +12,6 @@ export default function InventoryList(props) {
   const activeInventoryId = useStore((state) => state.activeInventoryId);
   const setActiveInventoryId = useStore((state) => state.setActiveInventoryId);
 
-  const setCreateInventoryVisible = useStore((state) => state.setCreateInventoryVisible);
-
   // show loading
   if (!activeRoom.inventoryLoaded) return (
     <div className={`p-5`}>
@@ -25,7 +22,7 @@ export default function InventoryList(props) {
   // show add button if length 0
   if (inventory.length === 0) return (
     <div className={`p-5 text-center text-sm ${className}`}>
-      <BaseButton type="secondary" onClick={() => setCreateInventoryVisible(true)}>Add item</BaseButton>
+      You haven&apos;t added any items for this room yet, click the <strong>add item</strong> button bellow to start.
     </div>
   );
 
