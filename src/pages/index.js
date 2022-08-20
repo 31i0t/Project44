@@ -13,10 +13,8 @@ import RoomInventory from "../components/RoomInventory";
 import Quote from "../components/Quote";
 
 export default function Home() {
-    const [tags, setTags] = useState([]);
-    //TODO: useState hook
-    const [tasks,
-        setTasks] = useState([{title: "Task 1"}, {title: "Task 2"}]);
+    const [tags, setTags] = useState([]);    
+    const [tasks, setTasks] = useState([{title: "Task 1"}, {title: "Task 2"}]);
 
     const addTask = (task) => {
         setTasks(previousTasks => [
@@ -27,7 +25,7 @@ export default function Home() {
     };
 
     const appTitle = "Estatelaza";
-    const appSummary = "Manage assets and inventories of your home seamlessly...";
+    const appSummary = "Manage inventories of your home with Estatelaza, at ease...";
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 font-sans leading-normal tracking-normal">
@@ -48,7 +46,7 @@ export default function Home() {
                     </div>
                     <div className="w-full md:w-1/3">
                         <BaseCard title="Tasks">
-                            <TaskList tasks={tasks} addTasks={addTask}/>
+                            <TaskList tasks={tasks} addTask={addTask}/>
                         </BaseCard>
                     </div>
                 </main>
