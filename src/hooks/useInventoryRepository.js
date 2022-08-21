@@ -61,7 +61,7 @@ export const useFetchInventory = () => {
       setRooms(rooms);
       setInventory(inventory);
       // log for devs
-      console.log(err);
+      console.error(err);
       // notifiy user
       toast.error(
         "Something went wrong! Please refresh the page or contact our support team if the issue persist.",

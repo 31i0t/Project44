@@ -37,7 +37,7 @@ export default function RoomInventory() {
   }
 
   // get roomNames except current room
-  const roomNames = rooms.filter(({id}) => id === activeRoom.id).map(r => r.name);
+  const roomNames = rooms.filter(({id}) => id !== activeRoom.id).map(r => r.name);
 
   return <BaseCard title="Inventory" className="h-full">
     <div className="flex h-full -mx-3">
