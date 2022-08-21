@@ -13,11 +13,13 @@ import Quote from "../components/Quote";
 import { useStore } from "../store";
 import { useFetchRooms } from "../hooks/useRoomRepository";
 import { useFetchInventory } from "../hooks/useInventoryRepository";
+import { useFetchTasks } from "../hooks/useTaskRepository";
 
 
 export default function Home() {
     const fetchRooms = useFetchRooms();
     const fetchInventory = useFetchInventory();
+    const fetchTasks = useFetchTasks();
     const activeRoomId = useStore(state => state.activeRoomId);
 
     const [tasks,
@@ -37,6 +39,7 @@ export default function Home() {
     // initialize rooms data
     useEffect(() => {
         fetchRooms();
+        fetchTasks();
     }, []);
 
     // load room inventory on room change
