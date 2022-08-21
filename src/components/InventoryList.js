@@ -22,7 +22,7 @@ export default function InventoryList(props) {
   // show add button if length 0
   if (inventory.length === 0) return (
     <div className={`p-5 text-center text-sm ${className}`}>
-      You haven&apos;t added any items for this room yet, click the <strong>add item</strong> button bellow to start.
+      You haven&apos;t registered any asset for this room yet, click the <strong>add asset</strong> button bellow to start.
     </div>
   );
 

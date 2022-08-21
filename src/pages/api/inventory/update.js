@@ -5,5 +5,5 @@ export default async function handler(req, res) {
   await db.collection("inventory").doc(id).update({
     ...rest
   });
-  res.status(200);
+  res.status(200).end();
 }

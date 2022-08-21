@@ -13,11 +13,16 @@ import RoomList from "../components/RoomList";
 import RoomInventory from "../components/RoomInventory";
 // import Quote from "../components/Quote";
 
+import { useStore } from "../store";
 import { useFetchRooms } from "../hooks/useRoomRepository";
+import { useFetchInventory } from "../hooks/useInventoryRepository";
 
 
 export default function Home() {
     const fetchRooms = useFetchRooms();
+    const fetchInventory = useFetchInventory();
+    const activeRoomId = useStore(state => state.activeRoomId);
+
     const [tags, setTags] = useState([]);
     //TODO: useState hook
     const [tasks,
@@ -30,14 +35,21 @@ export default function Home() {
             }
         ])
     };
-    // toast("Wow so easy !");
 
     const appTitle = "Estatelaza";
     const appSummary = "Manage assets and inventories of your home seamlessly...";
 
+    // initialize rooms data
     useEffect(() => {
         fetchRooms();
     }, []);
+
+    // load room inventory on room change
+    useEffect(() => {
+        if (activeRoomId) {
+            fetchInventory(activeRoomId);
+        }
+    }, [activeRoomId]);
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 font-sans leading-normal tracking-normal">

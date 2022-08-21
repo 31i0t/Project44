@@ -19,6 +19,9 @@ export default function BaseEditableInput(props) {
     const titleRef = useRef(null);
 
     useClickOutside([inputRef, titleRef], () => {
+        if (localInput.error) {
+            setLocalInput({ value: input.props.value, error: ''});
+        }
         setEditMode(false);
     });
 
@@ -37,6 +40,9 @@ export default function BaseEditableInput(props) {
 
     const handleInputKeyDown = (evt) => {
         if ((input.props.multiline && evt.keyCode === 13 && !evt.shiftKey) || (!input.props.multiline && evt.keyCode === 13)) {
+            if (localInput.error) {
+                setLocalInput({ value: input.props.value, error: ''});
+            }
             setEditMode(false);
         }
     }

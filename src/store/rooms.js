@@ -1,21 +1,35 @@
-import roomRepository from '../services/roomRepository';
-
 const createRoomStore = (set, get) => ({
   activeRoomId: null,
   showCreateRoomModal: false,
   editRoomEnabled: false,
-  loadingRooms: false,
+  loadingRooms: true,
   rooms: {},
 
-  setActiveRoomId: async (id) => {
-    set(() => ({ activeRoomId: id }));
+  setActiveRoomId: (id) => {
+    set({ activeRoomId: id });
     get().setActiveInventoryId(null);
   },
   setShowCreateRoomModal:  (visible) => set(() => ({ showCreateRoomModal: visible })),
   setEditRoomEnabled: (value) => set({ editRoomEnabled: value }),
   setLoadingRooms: (value) => set({ loadingRooms: value }),
 
-  setRoomInventory: (items = []) => items.forEach((item) => get().setInventory(item)),
+  setRoomInventory: (items = []) => items.forEach((item) => {
+    let room = get().rooms[item.roomId];
+    if (!room) throw new Error('Inventory does not belong to any room');
+
+    // register item in inventory store
+    get().setInventory(item);
+
+    // register item in room if not registered yet
+    if (Array.isArray(room.inventory) && !room.inventory.includes(item.id)) {
+      room = { ...room, inventory: [...room.inventory, item.id ] };
+    }
+
+    // update rooms
+    set((state) => ({
+      rooms:{ ...state.rooms, [room.id]: room },
+    }));
+  }),
   setRoomInventoryLoaded: (roomId) => set((state) => {
     const rooms = state.rooms;
     const room = {...rooms[roomId], inventoryLoaded: true };
@@ -24,15 +38,7 @@ const createRoomStore = (set, get) => ({
     };
   }),
 
-  setRooms: (rooms) => set(() => {
-    // store rooms as object, for easier management
-    return {
-      rooms: Array.isArray(rooms) ? rooms.reduce((output, room) => {
-        output[room.id] = room;
-        return output;
-      }, {}) : rooms,
-    };
-  }),
+  setRooms: (rooms) => set(() => ({ rooms })),
   updateRoom: (id, changes) => {
     set((state) => ({
       rooms: {
@@ -45,6 +51,11 @@ const createRoomStore = (set, get) => ({
     }));
   },
   deleteRoom: (id) => {
+    const rooms = get().rooms;
+    const room = rooms[id];
+    if (Array.isArray(room.inventory)) {
+      room.inventory.forEach(id => get().deleteInventory(id));
+    }
     set((state) => {
       const rooms = { ...state.rooms };
       delete rooms[id];

@@ -13,8 +13,6 @@ export default function CreateRoomModal(props) {
   const [busy, setBusy] = useState(false);
   const addRoom = useAddRoom();
 
-  const handleCancel = () => onCancel();
-
   const handleConfirm = async () => {
     setBusy(true);
     await addRoom(input.value);
@@ -36,7 +34,7 @@ export default function CreateRoomModal(props) {
       visible={true}
       busy={busy}
       confirmDisabled={Boolean(input.error) || trimSpaces(input.value) === ''}
-      onCancel={handleCancel}
+      onCancel={onCancel}
       onConfirm={handleConfirm}>
       <BaseInput
         autoFocus

@@ -1,4 +1,7 @@
+import toast from 'react-hot-toast';
+import { useStore } from "../store";
 import { BASE_URL } from "../utils";
+import useActiveRoom from "../hooks/useActiveRoom";
 
 const service = {
   all(roomId) {
@@ -35,31 +38,121 @@ const service = {
   }
 };
 
-const useInventoryRepository = (state) => {
-  const {
-    rooms,
-    setRoomInventory,
-    setRoomInventoryLoaded,
-    updateInventory,
-    deleteInventory,
-    setInventory,
-    setShowCreateInventoryModal,
-   } = state;
+export const useFetchInventory = () => {
+  const rooms = useStore(state => state.rooms);
+  const inventory = useStore(state => state.inventory);
+  const setRoomInventory = useStore(state => state.setRoomInventory);
+  const setRoomInventoryLoaded = useStore(state => state.setRoomInventoryLoaded);
+  const setRooms = useStore(state => state.setRooms);
+  const setInventory = useStore(state => state.setInventory);
 
-  return {
-    all: async (roomId) => {
-      debugger
-      const room = rooms[roomId];
-      // return if already loaded
-      if (!room || room.inventoryLoaded) return;
-      // load room inventory
+  return async (roomId) => {
+    const room = rooms[roomId];
+    // return if already loaded
+    if (room.inventoryLoaded) return;
+
+    try {
       const response = await service.all(roomId);
-      const items = await response.json();
-      setRoomInventory(items);
+      const assets = await response.json();
+      setRoomInventory(assets);
       setRoomInventoryLoaded(roomId);
-    },
+    } catch (err) {
+      // restore state
+      setRooms(rooms);
+      setInventory(inventory);
+      // log for devs
+      console.log(err);
+      // notifiy user
+      toast.error(
+        "Something went wrong! Please refresh the page or contact our support team if the issue persist.",
+        { duration: 4000 }
+      );
+    }
+  }
+};
 
-  };
-}
+export const useAddInventory = () => {
+  const rooms = useStore(state => state.rooms);
+  const activeRoom = useActiveRoom();
+  const inventory = useStore(state => state.inventory);
+  const setActiveInventoryId = useStore(state => state.setActiveInventoryId);
+  const setInventory = useStore(state => state.setInventory);
+  const setRooms = useStore(state => state.setRooms);
+  const setRoomInventory = useStore(state => state.setRoomInventory);
 
-export default useInventoryRepository;
+  return async (value) => {
+    const toastId = toast.loading('Creating asset...');
+    try {
+      const response = await service.add(activeRoom.id, value);
+      const asset = await response.json();
+      setRoomInventory([asset]);
+      setActiveInventoryId(asset.id);
+      toast.success(<b>Asset created succesfully!</b>, { id: toastId });
+    } catch (err) {
+      // restore state
+      setRooms(rooms);
+      setInventory(inventory);
+      // log for devs
+      console.error(err);
+      // notifiy user
+      toast.error(
+        `There was an error trying to create asset "${ value }", please try again.`,
+        { id: toastId, duration: 4000 }
+      );
+    }
+  }
+};
+
+export const useUpdateInventory = () => {
+  const inventory = useStore(state => state.inventory);
+  const updateInventory = useStore(state => state.updateInventory);
+  const setInventory = useStore(state => state.setInventory);
+  return async(id, changes) => {
+    const toastId = toast.loading('Updating asset...');
+    try {
+      await service.update(id, changes);
+      updateInventory(id, changes);
+      toast.success(<b>Asset updated succesfully!</b>, { id: toastId });
+    } catch (err) {
+      // restore state
+      setInventory(inventory);
+      // log for devs
+      console.error(err);
+      // notifiy user
+      toast.error(
+       `There was an error trying to update asset "${ value }", please try again.`,
+        { id: toastId, duration: 4000 }
+      );
+    }
+  }
+};
+
+export const useDeleteInventory = () => {
+  const rooms = useStore(state => state.rooms);
+  const inventory = useStore(state => state.inventory);
+  const setInventory = useStore(state => state.setInventory);
+  const setRooms = useStore(state => state.setRooms);
+  const deleteInventory = useStore(state => state.deleteInventory);
+
+  return async (id) => {
+    const toastId = toast.loading('Deleting room...');
+    const asset = inventory[id];
+
+    try {
+      await service.delete(id, asset.roomId);
+      deleteInventory(id, true);
+      toast.success(<b>Asset deleted succesfully!</b>, { id: toastId });
+    } catch (err) {
+      // restore state
+      setRooms(rooms);
+      setInventory(inventory);
+      // log for devs
+      console.error(err);
+      // notifiy user
+      toast.error(
+        `There was an error trying to delete asset "${ asset.name }", please try again.</span>`,
+        { id: toastId, duration: 4000 }
+      );
+    }
+  }
+};
