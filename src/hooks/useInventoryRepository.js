@@ -1,3 +1,6 @@
+/**
+ * Handles inventory db calls
+ */
 import toast from 'react-hot-toast';
 import { useStore } from "../store";
 import { BASE_URL } from "../utils";
@@ -87,7 +90,7 @@ export const useAddInventory = () => {
       const asset = await response.json();
       setRoomInventory([asset]);
       setActiveInventoryId(asset.id);
-      toast.success(<b>Asset created succesfully!</b>, { id: toastId });
+      toast.success(<b>Asset created successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setRooms(rooms);
@@ -112,7 +115,7 @@ export const useUpdateInventory = () => {
     try {
       await service.update(id, changes);
       updateInventory(id, changes);
-      toast.success(<b>Asset updated succesfully!</b>, { id: toastId });
+      toast.success(<b>Asset updated successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setInventory(inventory);
@@ -141,7 +144,7 @@ export const useDeleteInventory = () => {
     try {
       await service.delete(id, asset.roomId);
       deleteInventory(id, true);
-      toast.success(<b>Asset deleted succesfully!</b>, { id: toastId });
+      toast.success(<b>Asset deleted successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setRooms(rooms);

@@ -85,7 +85,7 @@ export const useAddTask = () => {
       const task = await response.json();
       updateTask(task.id, task);
       setActiveTaskId(task.id);
-      toast.success(<b>Task created succesfully!</b>, { id: toastId });
+      toast.success(<b>Task created successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setTasks(tasks);
@@ -109,7 +109,7 @@ export const useUpdateTask = () => {
     try {
       await service.update(id, changes);
       updateTask(id, changes);
-      toast.success(<b>task updated succesfully!</b>, { id: toastId });
+      toast.success(<b>task updated successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setTasks(tasks);
@@ -134,7 +134,7 @@ export const useDeleteTask = () => {
     try {
       await service.delete(id);
       deleteTask(id)
-      toast.success(<b>Task deleted succesfully!</b>, { id: toastId });
+      toast.success(<b>Task deleted successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setTasks(tasks);
@@ -158,7 +158,7 @@ export const useDeleteAllDone = () => {
     try {
       await Promise.all(doneTasks.map(service.delete));
       setTasks({});
-      toast.success(<b>Tasks deleted succesfully!</b>, { id: toastId });
+      toast.success(<b>Tasks deleted successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setTasks(tasks);

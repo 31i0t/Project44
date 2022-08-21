@@ -85,7 +85,7 @@ export const useAddRoom = () => {
       const room = await response.json();
       updateRoom(room.id, room);
       setActiveRoomId(room.id);
-      toast.success(<b>Room created succesfully!</b>, { id: toastId });
+      toast.success(<b>Room created successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setRooms(rooms);
@@ -109,7 +109,7 @@ export const useUpdateRoom = () => {
     try {
       await service.update(id, changes);
       updateRoom(id, changes);
-      toast.success(<b>Room updated succesfully!</b>, { id: toastId });
+      toast.success(<b>Room updated successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setRooms(rooms);
@@ -134,7 +134,7 @@ export const useDeleteRoom = () => {
     try {
       await service.delete(id);
       deleteRoom(id)
-      toast.success(<b>Room deleted succesfully!</b>, { id: toastId });
+      toast.success(<b>Room deleted successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setRooms(rooms);
