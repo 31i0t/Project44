@@ -20,6 +20,7 @@ export default function RoomList() {
   }
 
   return <BaseCard
+    className="flex-grow"
     title="Rooms"
     titleAppend={
       rooms.length > 0 && <BaseButton

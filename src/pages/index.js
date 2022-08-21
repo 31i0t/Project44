@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import { Toaster } from 'react-hot-toast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import Head from "next/head";
 
-import Tags from "../components/Tags";
 import BaseCard from "../components/base/BaseCard";
 import TaskList from "../components/TaskList";
 import Header from "../components/Header";
 import RoomList from "../components/RoomList";
 import RoomInventory from "../components/RoomInventory";
-// import Quote from "../components/Quote";
+import Quote from "../components/Quote";
 
 import { useStore } from "../store";
 import { useFetchRooms } from "../hooks/useRoomRepository";
@@ -23,8 +20,6 @@ export default function Home() {
     const fetchInventory = useFetchInventory();
     const activeRoomId = useStore(state => state.activeRoomId);
 
-    const [tags, setTags] = useState([]);
-    //TODO: useState hook
     const [tasks,
         setTasks] = useState([{title: "Task 1"}, {title: "Task 2"}]);
 
@@ -37,7 +32,7 @@ export default function Home() {
     };
 
     const appTitle = "Estatelaza";
-    const appSummary = "Manage assets and inventories of your home seamlessly...";
+    const appSummary = "Manage inventories of your home with Estatelaza, at ease...";
 
     // initialize rooms data
     useEffect(() => {
@@ -54,14 +49,12 @@ export default function Home() {
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 font-sans leading-normal tracking-normal">
             <Toaster />
-            <ToastContainer />
             <Head>
                 <title>{appTitle}</title>
                 <meta name="description" content="put some cool description here"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <Header title={appTitle} summary={appSummary} />
-            {/* <Quote /> */}
             <div className="flex flex-1 gap-3 p-3">
                 {/* Main screen */}
                 <main className="flex flex-1 gap-3">
@@ -70,16 +63,14 @@ export default function Home() {
                     </div>
                     <div className="w-full md:w-1/3">
                         <BaseCard title="Tasks">
-                            <TaskList tasks={tasks} addTasks={addTask}/>
+                            <TaskList tasks={tasks} addTask={addTask}/>
                         </BaseCard>
                     </div>
                 </main>
                 {/* Sidebar */}
                 <aside className="order-first flex flex-col gap-3 w-60">
                     <RoomList className="-mx-3"/>
-                    <BaseCard title="Tags">
-                        <Tags items={tags}/>
-                    </BaseCard>
+                    <Quote />
                 </aside>
             </div>
         </div>

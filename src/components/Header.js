@@ -1,3 +1,4 @@
+// Header Component
 const Header = ({title, summary}) => {   
     return (
         <div className="w-full bg-cover bg-center">

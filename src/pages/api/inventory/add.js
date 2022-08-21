@@ -8,22 +8,22 @@ const updateRoomCollection = async (inventoryId, roomId) => {
   roomData.inventory.push(inventoryId);
   // update room
   return roomRef.set(roomData);
-}
+};
 
-const updateInvetoryCollection = async (id, name, roomId) => {
+const updateInventoryCollection = async (id, name, roomId) => {
   await db.collection("inventory").doc(id).set({
     name,
     id,
     roomId,
-    createdAt: FieldValue.serverTimestamp()
+    createdAt: FieldValue.serverTimestamp(),
   });
   return db.collection("inventory").doc(id).get();
-}
+};
 
 export default async function handler(req, res) {
   const { name, roomId } = req.body;
   const inventoryId = uuid();
   await updateRoomCollection(inventoryId, roomId);
-  const updatedDoc = await updateInvetoryCollection(inventoryId, name, roomId);
+  const updatedDoc = await updateInventoryCollection(inventoryId, name, roomId);
   res.status(200).json(updatedDoc.data());
 }

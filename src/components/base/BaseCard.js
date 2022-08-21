@@ -17,7 +17,7 @@ export default function BaseCard(props) {
             {titleAppend}
           </div>
         }
-        <div className="p-3 flex-grow">
+        <div className="p-3 flex-grow overflow-y-scroll" style={{maxHeight: 'calc(100vh - 100px)'}}>
           {children}
         </div>
         {
