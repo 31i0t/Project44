@@ -4,7 +4,7 @@ const createRoomStore = (set, get) => ({
   editRoomEnabled: false,
   loadingRooms: true,
   rooms: {},
-
+  // actions
   setActiveRoomId: (id) => {
     set({ activeRoomId: id });
     get().setActiveInventoryId(null);
@@ -12,7 +12,6 @@ const createRoomStore = (set, get) => ({
   setShowCreateRoomModal:  (visible) => set(() => ({ showCreateRoomModal: visible })),
   setEditRoomEnabled: (value) => set({ editRoomEnabled: value }),
   setLoadingRooms: (value) => set({ loadingRooms: value }),
-
   setRoomInventory: (items = []) => items.forEach((item) => {
     let room = get().rooms[item.roomId];
     if (!room) throw new Error('Inventory does not belong to any room');
@@ -53,9 +52,11 @@ const createRoomStore = (set, get) => ({
   deleteRoom: (id) => {
     const rooms = get().rooms;
     const room = rooms[id];
+    // delete inventory related to this room
     if (Array.isArray(room.inventory)) {
       room.inventory.forEach(id => get().deleteInventory(id));
     }
+    // update state
     set((state) => {
       const rooms = { ...state.rooms };
       delete rooms[id];

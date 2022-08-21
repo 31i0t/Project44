@@ -1,3 +1,7 @@
+/**
+ * Handles inventory db calls
+ */
+
 import toast from 'react-hot-toast';
 import { useStore } from "../store";
 import { BASE_URL } from "../utils";

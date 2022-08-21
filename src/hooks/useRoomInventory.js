@@ -1,5 +1,6 @@
 import { useStore } from "../store/index";
 
+/** Getter. Returns Inventory of active room */
 const useRoomInventory = () => {
   const room = useStore((state) => state.rooms[state.activeRoomId]);
   const inventory = useStore((state) => state.inventory);

@@ -1,24 +1,27 @@
+/**
+ * Handles the logic to view and edit inventory
+ */
+
 import { useState } from "react";
 import { useStore } from "../store";
 
-import BaseTitle from "./base/BaseTitle";
-import BaseInput from "./base/BaseInput";
-import BaseButton from "./base/BaseButton";
 import useActiveInventory from '../hooks/useActiveInventory';
-import BaseEditableInput from "./base/BaseEditableInput";
-import BaseContent from "./base/BaseContent";
-
 import { useUpdateInventory } from "../hooks/useInventoryRepository";
+
+import BaseButton from "./base/BaseButton";
+import BaseContent from "./base/BaseContent";
+import BaseEditableInput from "./base/BaseEditableInput";
+import BaseInput from "./base/BaseInput";
+import BaseTitle from "./base/BaseTitle";
 import DeletInventoryModal from "./modals/DeleteInventoryModal";
-import { validateInput } from "../utils";
 
 export default function InventoryDetail() {
     const activeInventory = useActiveInventory();
     const updateInventory = useUpdateInventory();
 
-    const setActiveInventoryId = useStore(state => state.setActiveInventoryId);
     const activeRoomId = useStore(state => state.activeRoomId);
     const inventory = useStore(state => Object.values(state.inventory));
+    const setActiveInventoryId = useStore(state => state.setActiveInventoryId);
 
     const [showDeleteInventoryModal, setShowDeleteInventoryModal] = useState(false);
 
@@ -35,14 +38,18 @@ export default function InventoryDetail() {
 
     return (
         <div className="px-3 border-l h-full flex flex-col relative">
+            {/* Close Button */}
             <div className="close-button" onClick={() => setActiveInventoryId()} />
+            {/* Detail */}
             <div className="py-2 flex-grow">
+                {/* Name */}
                 <BaseEditableInput
                     validationValues={inventoryNames}
                     content={<BaseTitle size="large">{activeInventory.name}</BaseTitle>}
                     input={<BaseInput value={activeInventory.name} />}
                     onChange={(value) => handleChange('name', value)}
                 />
+                {/* Description */}
                 <BaseTitle>Description</BaseTitle>
                 <BaseEditableInput
                     input={
@@ -52,8 +59,11 @@ export default function InventoryDetail() {
                     onChange={(value) => handleChange('description', value)}
                 />
             </div>
+            {/* Footer */}
             <div className="">
+                {/* Delete */}
                 <BaseButton type="danger-blank" size="sm" onClick={() => setShowDeleteInventoryModal(true)}>Delete item</BaseButton>
+                {/* Add */}
                 { showDeleteInventoryModal && <DeletInventoryModal onCancel={() => setShowDeleteInventoryModal(false)} onConfirm={() => setShowDeleteInventoryModal(false)} /> }
             </div>
         </div>

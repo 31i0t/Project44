@@ -1,5 +1,10 @@
 import { useEffect } from "react";
 
+/**
+ * triggers callback when clicking outside ref
+ * @param {RefType|RefType[]} ref
+ * @param {Function} callback
+ */
 export default function useClickOutside(ref, callback, ) {
   const refs = Array.isArray(ref) ? ref : [ref];
   useEffect(() => {

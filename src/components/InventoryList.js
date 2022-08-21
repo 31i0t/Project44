@@ -1,14 +1,21 @@
-import MediaItem from "./base/BaseMediaItem";
-import useActiveRoom from "../hooks/useActiveRoom";
-import { useStore } from "../store";
-import useRoomInventory from "../hooks/useRoomInventory";
-import BaseListSkeleton from "./base/BaseListSkeleton";
+/**
+ * Handles the logic to show the inventory list
+ */
 
+import { useStore } from "../store";
+
+import useActiveRoom from "../hooks/useActiveRoom";
+import useRoomInventory from "../hooks/useRoomInventory";
+
+import BaseListSkeleton from "./base/BaseListSkeleton";
+import MediaItem from "./base/BaseMediaItem";
 
 export default function InventoryList(props) {
   const { className } = props;
+
   const activeRoom = useActiveRoom();
   const inventory = useRoomInventory();
+
   const activeInventoryId = useStore((state) => state.activeInventoryId);
   const setActiveInventoryId = useStore((state) => state.setActiveInventoryId);
 
@@ -19,13 +26,14 @@ export default function InventoryList(props) {
     </div>
   );
 
-  // show add button if length 0
+  // show message to add items if inventory lenght is 0
   if (inventory.length === 0) return (
     <div className={`p-5 text-center text-sm ${className}`}>
       You haven&apos;t registered any asset for this room yet, click the <strong>add asset</strong> button bellow to start.
     </div>
   );
 
+  // render list view
   const inventoryList = inventory.map((item) => {
     return (
       <li

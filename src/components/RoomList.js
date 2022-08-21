@@ -1,10 +1,14 @@
+/**
+ * Handles the logic to show the rooms list
+ */
+
 import { useState } from "react";
 import { useStore } from "../store";
 
-import BaseMediaItem from "./base/BaseMediaItem";
-import BaseCard from "./base/BaseCard";
 import BaseButton from "./base/BaseButton";
+import BaseCard from "./base/BaseCard";
 import BaseListSkeleton from "./base/BaseListSkeleton";
+import BaseMediaItem from "./base/BaseMediaItem";
 import CreateRoomModal from "./modals/CreateRoomModal";
 
 export default function RoomList() {
@@ -29,7 +33,9 @@ export default function RoomList() {
         size="xs"
         onClick={() => setShowCreateRoomModal(true)}>+</BaseButton>
     }>
+    {/* Loading indicator */}
     { loadingRooms && <BaseListSkeleton /> }
+    {/* Room list */}
     { !loadingRooms &&
       <nav className="-mx-3">
         <ul>
@@ -44,6 +50,7 @@ export default function RoomList() {
         </ul>
       </nav>
     }
+    {/* Show create new button room if there are no rooms created yet */}
     {
       !loadingRooms && rooms.length === 0 &&
       <BaseButton
@@ -52,6 +59,7 @@ export default function RoomList() {
         size="sm"
         onClick={() => setShowCreateRoomModal(true)}>Create new room</BaseButton>
     }
+    {/* Modals */}
     { showCreateRoomModal && <CreateRoomModal onCancel={() => setShowCreateRoomModal(false)} onConfirm={() => setShowCreateRoomModal(false)} /> }
   </BaseCard>;
 }
