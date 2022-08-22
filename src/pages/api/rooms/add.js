@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   try {
     const { name } = req.body;
     if (!name) {
-      return res.status(400).json({
+      return res.status(200).json({
         error: {
             message: 'Invalid Name',
             status: 400,
