@@ -48,8 +48,11 @@ export const useFetchRooms = () => {
   return async () => {
     setLoadingRooms(true);
     try {
-      const res = await service.all();
-      const rooms = await res.json();
+      const response = await service.all();
+      if (response.status !== 200) {
+        throw new Error(await response.json());
+      }
+      const rooms = await response.json();
       if (rooms.length) {
         // convert array to object for easier manipulation
         const roomsObj = rooms.reduce((output, room) => {
@@ -62,7 +65,7 @@ export const useFetchRooms = () => {
       setLoadingRooms(false);
     } catch (err) {
       // log for devs
-      console.error(err);
+      console.error(err, err.sent);
       // notifiy user
       toast.error(
         "Something went wrong! Please refresh the page or contact our support team if the issue persist.",
@@ -83,6 +86,7 @@ export const useAddRoom = () => {
     try {
       const response = await service.add(value);
       const room = await response.json();
+      if (room.error) throw new Error(room.error.message);
       updateRoom(room.id, room);
       setActiveRoomId(room.id);
       toast.success(<b>Room created successfully!</b>, { id: toastId });
@@ -107,7 +111,10 @@ export const useUpdateRoom = () => {
   return async(id, changes) => {
     const toastId = toast.loading('Updating room...');
     try {
-      await service.update(id, changes);
+      const response = await service.update(id, changes);
+      if (response.status !== 200) {
+        throw new Error(await response.json());
+      }
       updateRoom(id, changes);
       toast.success(<b>Room updated successfully!</b>, { id: toastId });
     } catch (err) {
@@ -132,7 +139,10 @@ export const useDeleteRoom = () => {
     const toastId = toast.loading('Deleting room...');
     const room = rooms[id];
     try {
-      await service.delete(id);
+      const response = await service.delete(id);
+      if (response.status !== 200) {
+        throw new Error(await response.json());
+      }
       deleteRoom(id)
       toast.success(<b>Room deleted successfully!</b>, { id: toastId });
     } catch (err) {
