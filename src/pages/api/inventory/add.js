@@ -21,9 +21,18 @@ const updateInventoryCollection = async (id, name, roomId) => {
 };
 
 export default async function handler(req, res) {
-  const { name, roomId } = req.body;
-  const inventoryId = uuid();
-  await updateRoomCollection(inventoryId, roomId);
-  const updatedDoc = await updateInventoryCollection(inventoryId, name, roomId);
-  res.status(200).json(updatedDoc.data());
+  try {
+    const { name, roomId } = req.body;
+    const inventoryId = uuid();
+    await updateRoomCollection(inventoryId, roomId);
+    const updatedDoc = await updateInventoryCollection(inventoryId, name, roomId);
+    res.status(200).json(updatedDoc.data());
+  } catch (error) {
+    console.error(error);
+    return res.status(error.status || 500).json({
+      error: {
+        message: error.message,
+      }
+    });
+  }
 }

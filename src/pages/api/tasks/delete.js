@@ -6,9 +6,12 @@ export default async function handler(req, res) {
     await db.collection("tasks").doc(id).delete();
     res.status(200).end();
   }
-
   catch (error) {
-    res.json(error);
-    res.status(405).end();
+    console.error(error);
+    return res.status(error.status || 500).json({
+      error: {
+        message: error.message,
+      }
+    });
   }
 }

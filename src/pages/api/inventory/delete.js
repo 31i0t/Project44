@@ -11,8 +11,17 @@ const deleteInventoryFromRoom = async (id, roomId) => {
 };
 
 export default async function handler(req, res) {
-  const { id, roomId } = req.body;
-  await deleteInventoryFromRoom(id, roomId);
-  await db.collection("inventory").doc(id).delete();
-  res.status(200).end();
+  try {
+    const { id, roomId } = req.body;
+    await deleteInventoryFromRoom(id, roomId);
+    await db.collection("inventory").doc(id).delete();
+    res.status(200).end();
+  } catch (error) {
+    console.error(error);
+    return res.status(error.status || 500).json({
+      error: {
+        message: error.message,
+      }
+    });
+  }
 }

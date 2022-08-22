@@ -9,6 +9,11 @@ export default async function handler(req, res) {
     });
     res.status(200).end();
   } catch (error) {
-    res.status(500).json(error);
+    console.error(error);
+    return res.status(error.status || 500).json({
+      error: {
+        message: error.message,
+      }
+    });
   }
 }

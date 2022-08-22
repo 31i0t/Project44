@@ -86,7 +86,7 @@ export const useAddRoom = () => {
     try {
       const response = await service.add(value);
       const room = await response.json();
-      if (room.error) throw new Error(room.error.message);
+      if (response.status !== 200) throw new Error(room.error.message);
       updateRoom(room.id, room);
       setActiveRoomId(room.id);
       toast.success(<b>Room created successfully!</b>, { id: toastId });
