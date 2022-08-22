@@ -112,9 +112,8 @@ export const useUpdateRoom = () => {
     const toastId = toast.loading('Updating room...');
     try {
       const response = await service.update(id, changes);
-      if (response.status !== 200) {
-        throw new Error(await response.json());
-      }
+      const data = await response.json();
+      if (response.status !== 200) throw new Error(data.error.message);
       updateRoom(id, changes);
       toast.success(<b>Room updated successfully!</b>, { id: toastId });
     } catch (err) {
@@ -140,9 +139,8 @@ export const useDeleteRoom = () => {
     const room = rooms[id];
     try {
       const response = await service.delete(id);
-      if (response.status !== 200) {
-        throw new Error(await response.json());
-      }
+      const data = await response.json();
+      if (response.status !== 200) throw new Error(data.error.message);
       deleteRoom(id)
       toast.success(<b>Room deleted successfully!</b>, { id: toastId });
     } catch (err) {

@@ -43,7 +43,7 @@ export const createInventoryStore = (set, get) => ({
     if (Array.isArray(room.inventory)) {
       set((state) => {
         const updatedRoomInventory = room.inventory.filter((id) => id !== inventoryId);
-        set({
+        return {
           rooms: {
             ...state.rooms,
             [roomId]: {
@@ -51,7 +51,7 @@ export const createInventoryStore = (set, get) => ({
               inventory: updatedRoomInventory,
             },
           },
-        });
+        };
       });
     }
   },

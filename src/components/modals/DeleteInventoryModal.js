@@ -11,7 +11,7 @@ export default function DeletInventoryModal(props) {
 
   const handleConfirm = async () => {
     setBusy(true);
-    await deleteInventory(inventory.id, inventory.roomId);
+    await deleteInventory(inventory.id);
     onConfirm();
   };
 

@@ -16,7 +16,7 @@ const TaskList = () => {
     const deleteAllDone = useDeleteAllDone();
 
     const loadingTasks = useStore(state => state.loadingTasks);
-    const tasks = useStore(state => Object.values(state.tasks));
+    const tasks = useStore(state =>  Object.values(state.tasks));
     const [input, setInput] = useInput('');
     const [busy, setBusy] = useState({});
 
