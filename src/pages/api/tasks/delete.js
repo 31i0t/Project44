@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   try {
     const { id } = req.body;
     await db.collection("tasks").doc(id).delete();
-    res.status(200).end();
+    res.status(200).json({ message: 'Deleted successfully'});
   }
   catch (error) {
     console.error(error);

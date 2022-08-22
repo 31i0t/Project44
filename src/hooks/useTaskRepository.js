@@ -48,8 +48,9 @@ export const useFetchTasks = () => {
   return async () => {
     setLoadingTasks(true);
     try {
-      const res = await service.all();
-      const tasks = await res.json();
+      const response = await service.all();
+      const tasks = await response.json();
+      if (response.status !== 200) throw new Error(tasks.error.message);
       if (tasks.length) {
         // convert array to object for easier manipulation
         const tasksObj = tasks.reduce((output, task) => {
@@ -83,6 +84,7 @@ export const useAddTask = () => {
     try {
       const response = await service.add(value);
       const task = await response.json();
+      if (response.status !== 200) throw new Error(task.error.message);
       updateTask(task.id, task);
       setActiveTaskId(task.id);
       toast.success(<b>Task created successfully!</b>, { id: toastId });
@@ -107,7 +109,9 @@ export const useUpdateTask = () => {
   return async(id, changes) => {
     const toastId = toast.loading('Updating task...');
     try {
-      await service.update(id, changes);
+      const response = await service.update(id, changes);
+      const data = await response.json();
+      if (response.status !== 200) throw new Error(data.error.message);
       updateTask(id, changes);
       toast.success(<b>task updated successfully!</b>, { id: toastId });
     } catch (err) {
@@ -132,7 +136,9 @@ export const useDeleteTask = () => {
     const toastId = toast.loading('Deleting task...');
     const task = tasks[id];
     try {
-      await service.delete(id);
+      const response = await service.delete(id);
+      const data = await response.json();
+      if (response.status !== 200) throw new Error(data.error.message);
       deleteTask(id)
       toast.success(<b>Task deleted successfully!</b>, { id: toastId });
     } catch (err) {

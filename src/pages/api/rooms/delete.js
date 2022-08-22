@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     await Promise.all(roomData.inventory.map(deleteInventory));
     // delete room
     await roomRef.delete();
-    res.status(200).end();
+    res.status(200).json({ message: 'Deleted successfully'});
   }
   catch (error) {
     console.error(error);

@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     await db.collection("inventory").doc(id).update({
       ...rest
     });
-    res.status(200).end();
+    res.status(200).json({ message: 'Updated successfully'});
   } catch (error) {
     console.error(error);
     return res.status(error.status || 500).json({

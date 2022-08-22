@@ -57,6 +57,7 @@ export const useFetchInventory = () => {
     try {
       const response = await service.all(roomId);
       const assets = await response.json();
+      if (response.status !== 200) throw new Error(assets.error.message);
       setRoomInventory(assets);
       setRoomInventoryLoaded(roomId);
     } catch (err) {
@@ -88,6 +89,7 @@ export const useAddInventory = () => {
     try {
       const response = await service.add(activeRoom.id, value);
       const asset = await response.json();
+      if (response.status !== 200) throw new Error(assets.error.message);
       setRoomInventory([asset]);
       setActiveInventoryId(asset.id);
       toast.success(<b>Asset created successfully!</b>, { id: toastId });
@@ -113,7 +115,9 @@ export const useUpdateInventory = () => {
   return async(id, changes) => {
     const toastId = toast.loading('Updating asset...');
     try {
-      await service.update(id, changes);
+      const response = await service.update(id, changes);
+      const data = response.json();
+      if (response.status !== 200) throw new Error(data.error.message);
       updateInventory(id, changes);
       toast.success(<b>Asset updated successfully!</b>, { id: toastId });
     } catch (err) {
@@ -142,7 +146,9 @@ export const useDeleteInventory = () => {
     const asset = inventory[id];
 
     try {
-      await service.delete(id, asset.roomId);
+      const response = await service.delete(id, asset.roomId);
+      const data = response.json();
+      if (response.status !== 200) throw new Error(data.error.message);
       deleteInventory(id, true);
       toast.success(<b>Asset deleted successfully!</b>, { id: toastId });
     } catch (err) {
