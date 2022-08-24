@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   try {
     const { id, roomId } = req.body;
     await deleteInventoryFromRoom(id, roomId);
-    await db.collection("inventory").doc(id).delete();
+    await db.collection("inventory").doc(id.toString()).delete();
     res.status(200).json({ message: 'Deleted successfully'});
   } catch (error) {
     console.error(error);

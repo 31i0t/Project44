@@ -1,11 +1,11 @@
 import { db } from "../../../vendors/firebase";
 
-const deleteInventory = (id) => db.collection("inventory").doc(id).delete();
+const deleteInventory = (id) => db.collection("inventory").doc(id.toString()).delete();
 
 export default async function handler(req, res) {
   try {
     const { id } = req.body;
-    var roomRef = await db.collection("rooms").doc(id);
+    var roomRef = await db.collection("rooms").doc(id.toString());
     var roomData = await roomRef.get().then((r) => r.data());
     // delete inventory related to this room
     await Promise.all(roomData.inventory.map(deleteInventory));
