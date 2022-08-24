@@ -1,6 +1,7 @@
-// assets quote reference : https://www.fishbowlinventory.com/blog/2013/04/01/8-great-inventory-management-quotes/
+// assets quote references : 
+// https://www.fishbowlinventory.com/blog/2013/04/01/8-great-inventory-management-quotes/
 // https://animoto.com/blog/business/inspirational-quotes-real-estate-business
-//https://www.azquotes.com/quotes/topics/inventory.html
+// https://www.azquotes.com/quotes/topics/inventory.html
 
 import { useEffect, useState } from "react";
 
@@ -28,7 +29,7 @@ const quotesData = [
     }
 ];
 
-//QuoteComponent whihc displays a random quote from a list of quote objects
+//QuoteComponent which displays a random quote from a list of quote objects
 const Quote = () => {
     const [item, setItem] = useState(quotesData[0]);
 
