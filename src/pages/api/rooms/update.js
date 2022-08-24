@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   try {
     const { id, ...rest} = req.body;
 
-    await db.collection("rooms").doc(id).update({
+    await db.collection("rooms").doc(id.toString()).update({
       ...rest
     });
     res.status(200).json({ message: 'Updated successfully'});

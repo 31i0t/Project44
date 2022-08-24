@@ -11,13 +11,13 @@ const updateRoomCollection = async (inventoryId, roomId) => {
 };
 
 const updateInventoryCollection = async (id, name, roomId) => {
-  await db.collection("inventory").doc(id).set({
+  await db.collection("inventory").doc(id.toString()).set({
     name,
     id,
     roomId,
     createdAt: FieldValue.serverTimestamp(),
   });
-  return db.collection("inventory").doc(id).get();
+  return db.collection("inventory").doc(id.toString()).get();
 };
 
 export default async function handler(req, res) {
