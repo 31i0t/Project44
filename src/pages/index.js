@@ -43,9 +43,11 @@ export default function Home() {
                   for general estate and asset management.
                 </div>
               </div>
-              <div className="text-center">
+              <div className="text-center m-3">
                 <Link href="/home">
-                  <a className="px-10 py-2 hover:underline">Try it now!</a>
+                  <a className="bg-blue-500 text-white hover:bg-blue-600 rounded shadow px-10 py-2">
+                    Try it now!
+                  </a>
                 </Link>
               </div>
             </div>
