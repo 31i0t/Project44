@@ -11,7 +11,7 @@ body {
 @tailwind components;
 @tailwind utilities;
 
-// loadger css
+/* loadger css */
 .loader {
   display: inline-block;
   width: 80px;
@@ -113,8 +113,4 @@ body {
   content: "”";
   right: -35px;
   top: 5px;
-}
-.quote .author {
-  margin-top: 10px;
-  font-size: 12px;
 }
