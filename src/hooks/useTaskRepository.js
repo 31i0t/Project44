@@ -148,7 +148,7 @@ export const useDeleteTask = () => {
       console.error(err);
       // notifiy user
       toast.error(
-        `There was an error trying to delete task "${ task.name }", please try again.</span>`,
+        `There was an error trying to delete task "${ task.name }", please try again.`,
         { id: toastId, duration: 4000 }
       );
     }
@@ -172,7 +172,7 @@ export const useDeleteAllDone = () => {
       console.error(err);
       // notifiy user
       toast.error(
-        `There was an error trying to delete all done taasks, please try again.</span>`,
+        `There was an error trying to delete all done taasks, please try again.`,
         { id: toastId, duration: 4000 }
       );
     }

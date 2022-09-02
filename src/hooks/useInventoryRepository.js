@@ -159,7 +159,7 @@ export const useDeleteInventory = () => {
       console.error(err);
       // notifiy user
       toast.error(
-        `There was an error trying to delete asset "${ asset.name }", please try again.</span>`,
+        `There was an error trying to delete asset "${ asset.name }", please try again.`,
         { id: toastId, duration: 4000 }
       );
     }
