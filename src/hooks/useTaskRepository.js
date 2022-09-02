@@ -113,7 +113,7 @@ export const useUpdateTask = () => {
       const data = await response.json();
       if (response.status !== 200) throw new Error(data.error.message);
       updateTask(id, changes);
-      toast.success(<b>task updated successfully!</b>, { id: toastId });
+      toast.success(<b>Task updated successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
       setTasks(tasks);

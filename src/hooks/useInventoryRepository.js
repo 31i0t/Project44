@@ -142,7 +142,7 @@ export const useDeleteInventory = () => {
   const deleteInventory = useStore(state => state.deleteInventory);
 
   return async (id) => {
-    const toastId = toast.loading('Deleting room...');
+    const toastId = toast.loading('Deleting asset...');
     const asset = inventory[id];
 
     try {
