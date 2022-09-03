@@ -36,11 +36,11 @@ export default function Home() {
             <div className="ml-auto mr-auto py-32">
               <div className="bg-white border rounded shadow flex flex-col">
                 <div className="p-3 border-b">
-                  <BaseTitle size="main" className="-my-3">
+                  <BaseTitle size="main" className="text-center -my-3">
                     Management Made Easy
                   </BaseTitle>
                 </div>
-                <div className="p-3">
+                <div className="p-3 text-center">
                   EstateLaza is an easy-to-learn and easy-to-use tool <br />
                   for general estate and asset management.
                 </div>
