@@ -26,7 +26,16 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title={appTitle} summary={appSummary} />
+      <div className="w-full bg-cover bg-center">
+          <div className="flex justify-center h-full w-full bg-blue-900 py-2">
+              <div className="text-center py-2 px-3 items-baseline">
+                  <h1 className="text-white text-xl font-semibold uppercase md:text-l">
+                      {appTitle}
+                  </h1>
+                  <h2 className="text-white md:text-l">{appSummary}</h2>
+              </div>
+          </div>
+      </div>
       <div className="flex flex-1 gap-3 p-3">
         {/* Main screen */}
         <main className="flex flex-col flex-1 gap-3">
@@ -45,7 +54,7 @@ export default function Home() {
               </div>
               <div className="text-center m-3">
                 <Link href="/home">
-                  <a className="bg-blue-500 text-white hover:bg-blue-600 rounded shadow px-10 py-2">
+                  <a className="bg-blue-700 text-white hover:bg-blue-600 rounded shadow px-10 py-2">
                     Try it now!
                   </a>
                 </Link>
