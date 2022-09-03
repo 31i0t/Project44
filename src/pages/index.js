@@ -1,14 +1,8 @@
-import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
-
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-
-import Header from "../components/Header";
 import Quote from "../components/Quote";
 import BaseTitle from "../components/base/BaseTitle";
-import BaseButton from "../components/base/BaseButton";
 
 export default function Home() {
   const appTitle = "EstateLaza";
@@ -17,7 +11,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 font-sans leading-normal tracking-normal">
-      <Toaster />
       <Head>
         <title>{appTitle}</title>
         <meta
@@ -26,35 +19,46 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title={appTitle} summary={appSummary} />
-      <div className="flex flex-1 gap-3 p-3">
+      <div className="w-full bg-cover bg-center">
+          <div className="flex justify-center h-full w-full bg-blue-900 py-2">
+              <div className="text-center py-2 px-3 items-baseline">
+                  <h1 className="text-white text-xl font-semibold uppercase md:text-l">
+                      {appTitle}
+                  </h1>
+                  <h2 className="text-white md:text-l">{appSummary}</h2>
+              </div>
+          </div>
+      </div>
+      <div className="">
         {/* Main screen */}
-        <main className="flex flex-col flex-1 gap-3">
-          <div className="flex justify-around p-3">
-            <div className="flex flex-col gap-3 p-3">
+        <main className="">
+          <div className="flex justify-center bg-cover bg-bottom bg-sky-100" style={{ 'background-image': 'url(/images/hero.jpg)'}}>
+            <div className="ml-auto mr-auto py-32">
               <div className="bg-white border rounded shadow flex flex-col">
-                <div className="flex items-center p-3 border-b">
+                <div className="p-3 border-b">
                   <BaseTitle size="main" className="-my-3">
                     Management Made Easy
                   </BaseTitle>
                 </div>
-                <div className="p-3 flex-grow">
+                <div className="p-3">
                   EstateLaza is an easy-to-learn and easy-to-use tool <br />
                   for general estate and asset management.
                 </div>
               </div>
-              <div className="text-center m-3">
+              <div className="text-center mt-8">
                 <Link href="/home">
-                  <a className="bg-blue-500 text-white hover:bg-blue-600 rounded shadow px-10 py-2">
+                  <a className="bg-blue-700 text-white hover:bg-blue-600 rounded shadow px-10 py-3">
                     Try it now!
                   </a>
                 </Link>
               </div>
             </div>
-            <Quote />
           </div>
-          <div className="flex justify-around p-5">
-            <div className="flex flex-col gap-5 p-2 pt-0">
+
+          <Quote />
+
+          <div className="flex justify-around p-6">
+            <div className="flex flex-col gap-5 p-2">
               <div className="bg-white p-3 border rounded shadow flex flex-col">
                 <BaseTitle size="large" className="-my-3">
                   For Families
@@ -68,7 +72,7 @@ export default function Home() {
                 height={150}
               />
             </div>
-            <div className="flex flex-col gap-5 p-2 pt-12">
+            <div className="flex flex-col gap-5 p-2">
               <div className="bg-white p-3 border rounded shadow flex flex-col">
                 <BaseTitle size="large" className="-my-3">
                   For Roommates
@@ -82,7 +86,7 @@ export default function Home() {
                 height={150}
               />
             </div>
-            <div className="flex flex-col gap-5 p-2 pt-24">
+            <div className="flex flex-col gap-5 p-2">
               <div className="bg-white p-3 border rounded shadow flex flex-col">
                 <BaseTitle size="large" className="-my-3">
                   For Businesses
@@ -96,7 +100,7 @@ export default function Home() {
                 height={150}
               />
             </div>
-            <div className="flex flex-col gap-5 p-2 pt-36">
+            <div className="flex flex-col gap-5 p-2">
               <div className="bg-white p-3 border rounded shadow flex flex-col">
                 <BaseTitle size="large" className="my-3">
                   For Everyone
@@ -111,6 +115,8 @@ export default function Home() {
               />
             </div>
           </div>
+
+
         </main>
       </div>
     </div>

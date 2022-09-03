@@ -62,7 +62,7 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title={appTitle} summary={appSummary} />
+      <Header title={appTitle} />
       <div className="flex flex-1 gap-3 p-3">
         {/* Main screen */}
         <main className="flex flex-1 gap-3">
