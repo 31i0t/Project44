@@ -110,6 +110,7 @@ export const useUpdateRoom = () => {
   const setRooms = useStore(state => state.setRooms);
   return async(id, changes) => {
     const toastId = toast.loading('Updating room...');
+    const room = rooms[id];
     try {
       const response = await service.update(id, changes);
       const data = await response.json();
@@ -123,7 +124,7 @@ export const useUpdateRoom = () => {
       console.error(err);
       // notifiy user
       toast.error(
-        `There was an error trying to update room "${ value }", please try again.`,
+        `There was an error trying to update room "${ room.name }", please try again.`,
         { id: toastId, duration: 4000 }
       );
     }

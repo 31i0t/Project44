@@ -114,6 +114,7 @@ export const useUpdateInventory = () => {
   const setInventory = useStore(state => state.setInventory);
   return async(id, changes) => {
     const toastId = toast.loading('Updating asset...');
+    const asset = inventory[id];
     try {
       const response = await service.update(id, changes);
       const data = response.json();
@@ -122,12 +123,15 @@ export const useUpdateInventory = () => {
       toast.success(<b>Asset updated successfully!</b>, { id: toastId });
     } catch (err) {
       // restore state
-      setInventory(inventory);
+      // @TODO app crashes by no reason if we call setInventory
+      // src/hooks/useRoomRepository.js (45:50) cannot read properties of undefined (reading 'setLoadingRooms')
+      // setInventory(asset);
+
       // log for devs
       console.error(err);
       // notifiy user
       toast.error(
-       `There was an error trying to update asset "${ value }", please try again.`,
+       `There was an error trying to update asset "${ asset.name }", please try again.`,
         { id: toastId, duration: 4000 }
       );
     }

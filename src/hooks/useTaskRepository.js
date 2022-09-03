@@ -108,6 +108,7 @@ export const useUpdateTask = () => {
   const setTasks = useStore(state => state.setTasks);
   return async(id, changes) => {
     const toastId = toast.loading('Updating task...');
+    const task = tasks[id];
     try {
       const response = await service.update(id, changes);
       const data = await response.json();
@@ -121,7 +122,7 @@ export const useUpdateTask = () => {
       console.error(err);
       // notifiy user
       toast.error(
-        `There was an error trying to update task "${ value }", please try again.`,
+        `There was an error trying to update task "${ task.name }", please try again.`,
         { id: toastId, duration: 4000 }
       );
     }
@@ -172,7 +173,7 @@ export const useDeleteAllDone = () => {
       console.error(err);
       // notifiy user
       toast.error(
-        `There was an error trying to delete all done taasks, please try again.`,
+        `There was an error trying to delete all done tasks, please try again.`,
         { id: toastId, duration: 4000 }
       );
     }
