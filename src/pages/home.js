@@ -62,21 +62,25 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {/* Top header */}
       <Header title={appTitle} />
-      <div className="flex flex-1 gap-3 p-3">
-        {/* Main screen */}
-        <main className="flex flex-1 gap-3">
-          <div className="w-full">
+      {/* App content */}
+      <div className="flex flex-1 flex-col md:flex-row gap-3 p-3">
+        {/* Main content */}
+        <main className="flex md:flex-1 flex-col lg:flex-row gap-3">
+          {/* */}
+          <div className="flex-1 w-full">
             <RoomInventory />
           </div>
-          <div className="w-full md:w-1/3">
+          {/* */}
+          <div className="w-full lg:w-1/3">
             <BaseCard title="Tasks">
               <TaskList tasks={tasks} addTask={addTask} />
             </BaseCard>
           </div>
         </main>
-        {/* Sidebar */}
-        <aside className="order-first flex flex-col gap-3 w-60">
+        {/* Aside containing the room list - top section on mobile, sidebar on larger screens */}
+        <aside className="order-first flex flex-col gap-3 md:w-1/3 lg:w-80">
           <RoomList className="-mx-3" />
         </aside>
       </div>
